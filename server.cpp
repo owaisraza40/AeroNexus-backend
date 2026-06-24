@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <cstdlib>
 using namespace std;
 
 void setCORS(httplib::Response& res) {
@@ -472,6 +473,11 @@ int main() {
     });
 
     cout << "AeroNexus Server running at http://localhost:8080" << endl;
-    svr.listen("0.0.0.0", 8080);
-    return 0;
+    const char* portEnv = std::getenv("PORT");
+    int port = portEnv ? std::stoi(portEnv) : 8080;
+
+        cout << "AeroNexus Server running on port " << port << endl;
+
+        svr.listen("0.0.0.0", port);
+        return 0;
 }
