@@ -471,8 +471,6 @@ int main() {
         outFile.close();
         res.set_content("{\"success\":true}", "application/json");
     });
-
-    cout << "AeroNexus Server running at http://localhost:8080" << endl;
     const char* portEnv = std::getenv("PORT");
     int port = portEnv ? std::stoi(portEnv) : 8080;
 
