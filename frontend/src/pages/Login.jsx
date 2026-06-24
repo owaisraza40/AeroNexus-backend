@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -7,105 +7,7 @@ function Login() {
   const [isSignup, setIsSignup] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const canvasRef = useRef(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const particles = Array.from({ length: 120 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.5 + 0.3,
-      dx: (Math.random() - 0.5) * 0.3,
-      dy: (Math.random() - 0.5) * 0.3,
-      opacity: Math.random() * 0.7 + 0.3,
-    }));
-
-    const planes = Array.from({ length: 3 }, (_, i) => ({
-      x: -100,
-      y: 80 + i * 200,
-      speed: 0.4 + i * 0.15,
-      size: 10 + i * 4,
-      trail: [],
-    }));
-
-    let animId;
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      ctx.strokeStyle = "rgba(59,130,246,0.04)";
-      ctx.lineWidth = 1;
-      for (let x = 0; x < canvas.width; x += 60) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
-      }
-      for (let y = 0; y < canvas.height; y += 60) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
-      }
-
-      particles.forEach(p => {
-        p.x += p.dx; p.y += p.dy;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(147,197,253,${p.opacity})`;
-        ctx.fill();
-      });
-
-      particles.forEach((p, i) => {
-        particles.slice(i + 1).forEach(p2 => {
-          const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-          if (dist < 100) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(59,130,246,${0.08 * (1 - dist / 100)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        });
-      });
-
-      planes.forEach(plane => {
-        plane.x += plane.speed;
-        if (plane.x > canvas.width + 100) { plane.x = -100; plane.trail = []; }
-        plane.trail.push({ x: plane.x, y: plane.y });
-        if (plane.trail.length > 60) plane.trail.shift();
-
-        plane.trail.forEach((t, i) => {
-          const alpha = (i / plane.trail.length) * 0.4;
-          ctx.beginPath();
-          ctx.arc(t.x, t.y, 0.8, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(96,165,250,${alpha})`;
-          ctx.fill();
-        });
-
-        ctx.save();
-        ctx.translate(plane.x, plane.y);
-        ctx.fillStyle = "rgba(147,197,253,0.6)";
-        ctx.font = `${plane.size}px serif`;
-        ctx.fillText("✈", 0, 0);
-        ctx.restore();
-      });
-
-      animId = requestAnimationFrame(draw);
-    };
-
-    draw();
-
-    const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    window.addEventListener("resize", handleResize);
-    return () => { cancelAnimationFrame(animId); window.removeEventListener("resize", handleResize); };
-  }, []);
 
   const handleSubmit = async () => {
     if (!username || !password) { setError("Please enter username and password"); return; }
@@ -132,47 +34,81 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden" style={{ background: "linear-gradient(135deg, #060d1f 0%, #0a1628 50%, #060d1f 100%)" }}>
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+    <div 
+      className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#F0F0F0] font-['Outfit',sans-serif]" 
+      style={{ 
+        backgroundImage: "radial-gradient(#fff 2px, transparent 2px)", 
+        backgroundSize: "20px 20px" 
+      }}
+    >
+      {/* Bauhaus Geometric Background Overlays (Static) */}
+      <div className="absolute -top-10 -left-10 w-64 h-64 bg-[#1040C0] rounded-full opacity-10 border-4 border-[#121212]"></div>
+      <div className="absolute top-1/4 right-10 w-32 h-32 bg-[#F0C020] rounded-none rotate-45 opacity-20 border-4 border-[#121212]"></div>
+      <div 
+        className="absolute bottom-0 left-1/4 w-48 h-48 bg-[#D02020] opacity-10" 
+        style={{ clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" }}
+      ></div>
 
-      <div className="relative z-10 w-full max-w-md px-6">
-        <div className="text-center mb-8">
-          <div className="relative inline-block">
-            <div className="absolute inset-0 rounded-full blur-2xl opacity-30" style={{ background: "radial-gradient(circle, #3b82f6, transparent)" }}></div>
-            <img src="/logo.png" alt="AeroNexus" className="relative w-28 h-28 mx-auto drop-shadow-2xl" />
+      <div className="relative z-10 w-full max-w-md px-4 sm:px-6 py-12">
+        {/* Header / Logo Area */}
+        <div className="text-center mb-10 flex flex-col items-center">
+          <div className="w-24 h-24 mb-4 border-4 border-[#121212] bg-[#1040C0] shadow-[6px_6px_0px_0px_#121212] rounded-none flex items-center justify-center p-2 hover:-translate-y-1 transition-transform duration-200 ease-out">
+            <img 
+              src="/logo.png" 
+              alt="AeroNexus" 
+              className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all duration-200" 
+            />
           </div>
-          <p className="text-blue-400 text-xs tracking-widest uppercase mt-3 font-medium">Connect • Innovate • Elevate</p>
+          <h1 className="text-5xl font-black text-[#121212] uppercase tracking-tighter leading-[0.9]">
+            Aero<br/>Nexus
+          </h1>
+          <div className="mt-4 border-b-4 border-[#121212] pb-2">
+            <p className="text-[#121212] text-xs tracking-widest uppercase font-bold">
+              Connect • Innovate • Elevate
+            </p>
+          </div>
         </div>
 
-        <div className="rounded-2xl p-8 shadow-2xl" style={{ background: "rgba(6,13,31,0.8)", backdropFilter: "blur(24px)", border: "1px solid rgba(59,130,246,0.15)" }}>
-          <h2 className="text-2xl font-bold text-white text-center mb-1">{isSignup ? "Create Account" : "Welcome Back"}</h2>
-          <p className="text-gray-500 text-center text-sm mb-6">{isSignup ? "Join AeroNexus today" : "Sign in to your account"}</p>
+        {/* Main Card */}
+        <div className="bg-white border-4 border-[#121212] shadow-[8px_8px_0px_0px_#121212] rounded-none p-6 sm:p-8 relative hover:-translate-y-1 transition-transform duration-200 ease-out">
+          
+          {/* Card Corner Decoration */}
+          <div className="absolute top-0 right-0 w-6 h-6 bg-[#D02020] rounded-full border-l-4 border-b-4 border-[#121212] translate-x-1 -translate-y-1"></div>
+
+          <h2 className="text-3xl font-black text-[#121212] uppercase tracking-tighter mb-1">
+            {isSignup ? "Create Account" : "Welcome Back"}
+          </h2>
+          <p className="text-[#121212] font-medium text-sm mb-6 pb-4 border-b-4 border-[#121212]">
+            {isSignup ? "Join the construct today" : "Access your terminal"}
+          </p>
 
           {error && (
-            <div className="mb-4 px-4 py-3 rounded-lg text-red-400 text-sm text-center" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)" }}>
+            <div className="mb-6 px-4 py-3 bg-[#D02020] text-white border-2 border-[#121212] shadow-[4px_4px_0px_0px_#121212] rounded-none text-xs font-bold uppercase tracking-wider">
               {error}
             </div>
           )}
 
-          <div className="mb-4">
-            <label className="text-gray-400 text-xs mb-2 block uppercase tracking-wider">Username</label>
+          <div className="mb-5">
+            <label className="text-[#121212] text-xs font-bold mb-2 block uppercase tracking-widest">
+              Username
+            </label>
             <input
-              className="w-full text-white rounded-xl px-4 py-3 outline-none transition-all duration-200 text-sm"
-              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(59,130,246,0.2)" }}
-              placeholder="Enter your username"
+              className="w-full bg-[#F0F0F0] text-[#121212] rounded-none border-2 border-[#121212] px-4 py-3 font-medium outline-none focus:bg-white focus:shadow-[4px_4px_0px_0px_#121212] focus:-translate-y-[2px] focus:-translate-x-[2px] transition-all duration-200 ease-out"
+              placeholder="ENTER USERNAME"
               value={username}
               onChange={e => setUsername(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleSubmit()}
             />
           </div>
 
-          <div className="mb-6">
-            <label className="text-gray-400 text-xs mb-2 block uppercase tracking-wider">Password</label>
+          <div className="mb-8">
+            <label className="text-[#121212] text-xs font-bold mb-2 block uppercase tracking-widest">
+              Password
+            </label>
             <input
               type="password"
-              className="w-full text-white rounded-xl px-4 py-3 outline-none transition-all duration-200 text-sm"
-              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(59,130,246,0.2)" }}
-              placeholder="Enter your password"
+              className="w-full bg-[#F0F0F0] text-[#121212] rounded-none border-2 border-[#121212] px-4 py-3 font-medium outline-none focus:bg-white focus:shadow-[4px_4px_0px_0px_#121212] focus:-translate-y-[2px] focus:-translate-x-[2px] transition-all duration-200 ease-out"
+              placeholder="ENTER PASSWORD"
               value={password}
               onChange={e => setPassword(e.target.value)}
               onKeyDown={e => e.key === "Enter" && handleSubmit()}
@@ -182,30 +118,34 @@ function Login() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full text-white font-bold py-3 rounded-xl transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] text-sm tracking-wide"
-            style={{ background: "linear-gradient(135deg, #1d4ed8, #3b82f6)", boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
+            className="w-full bg-[#1040C0] text-white border-2 md:border-4 border-[#121212] shadow-[4px_4px_0px_0px_#121212] rounded-none py-4 font-black uppercase text-xl tracking-widest active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200 ease-out disabled:opacity-50"
           >
-            {loading ? "Authenticating..." : isSignup ? "Create Account" : "Sign In"}
+            {loading ? "PROCESSING..." : isSignup ? "REGISTER" : "SIGN IN"}
           </button>
 
-          <div className="flex items-center gap-3 my-5">
-            <div className="flex-1 h-px" style={{ background: "rgba(59,130,246,0.15)" }}></div>
-            <span className="text-gray-600 text-xs">or</span>
-            <div className="flex-1 h-px" style={{ background: "rgba(59,130,246,0.15)" }}></div>
-          </div>
-
-          <p className="text-gray-500 text-center text-sm">
-            {isSignup ? "Already have an account?" : "Don't have an account?"}
-            <span
-              className="text-blue-400 cursor-pointer ml-1 hover:text-blue-300 transition-colors font-medium"
+          <div className="mt-8 flex flex-col items-center">
+            <div className="w-full border-t-4 border-[#121212] mb-6 relative">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-4 text-[#121212] text-xs font-bold uppercase tracking-widest">
+                OR
+              </div>
+            </div>
+            
+            <p className="text-[#121212] font-bold text-sm uppercase mb-3">
+              {isSignup ? "Already registered?" : "Need an access code?"}
+            </p>
+            
+            <button
+              className="bg-[#F0C020] text-[#121212] border-2 border-[#121212] px-8 py-2 font-black uppercase text-sm shadow-[4px_4px_0px_0px_#121212] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-200 ease-out"
               onClick={() => { setIsSignup(!isSignup); setError(""); }}
             >
-              {isSignup ? "Sign In" : "Sign Up"}
-            </span>
-          </p>
+              {isSignup ? "LOG IN INSTEAD" : "CREATE ACCOUNT"}
+            </button>
+          </div>
         </div>
 
-        <p className="text-center text-gray-700 text-xs mt-6">© 2026 AeroNexus. All rights reserved.</p>
+        <p className="text-center text-[#121212] font-bold text-xs mt-8 uppercase tracking-widest">
+          © 2026 AeroNexus
+        </p>
       </div>
     </div>
   );
