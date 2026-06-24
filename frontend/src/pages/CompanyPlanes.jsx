@@ -1,47 +1,100 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 
+// ─── Form Panel (Used for both Add and Edit) ──────────────────────────────────
 function FormPanel({ form, setForm, onSave, onCancel, saveLabel }) {
   return (
-    <div className="rounded-2xl p-6 mb-6" style={{ background: "rgba(167,139,250,0.03)", border: "1px solid rgba(167,139,250,0.15)" }}>
-      <p className="text-sm font-semibold text-white mb-4">{saveLabel === "Save Plane" ? "New Aircraft" : "Edit Aircraft"}</p>
-      <div className="grid grid-cols-2 gap-3 mb-3">
+    <div 
+      className="p-6 mb-8 font-mono relative bg-[#0a0a0f] border border-[#2a2a3a]"
+      style={{ clipPath: "polygon(0 15px, 15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)" }}
+    >
+      <p className="text-sm font-bold text-[#ff00ff] mb-4 uppercase tracking-[0.2em] flex items-center gap-2">
+        <span className="w-2 h-2 bg-[#ff00ff] animate-pulse"></span>
+        {saveLabel === "Save Plane" ? "New Aircraft" : "Edit Aircraft"}
+      </p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
         {[
           { ph: "Model No (e.g. A320)", key: "modelNo", type: "text" },
           { ph: "Serial No", key: "serialNo", type: "text" },
           { ph: "Fuel Capacity (L)", key: "fuelCapacity", type: "number" },
         ].map(f => (
-          <input key={f.key} type={f.type} placeholder={f.ph} value={form[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })}
-            className="px-4 py-2.5 rounded-xl text-sm text-white outline-none transition-all"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
-            onFocus={e => e.target.style.border = "1px solid rgba(167,139,250,0.5)"}
-            onBlur={e => e.target.style.border = "1px solid rgba(255,255,255,0.08)"} />
+          <div key={f.key} className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ff00ff] font-bold">{'>'}</span>
+            <input
+              type={f.type}
+              placeholder={f.ph}
+              value={form[f.key]}
+              onChange={e => setForm({ ...form, [f.key]: e.target.value })}
+              className="num-input w-full bg-[#12121a] text-[#ff00ff] border border-[#2a2a3a] pl-10 pr-4 py-3 text-sm outline-none focus:border-[#ff00ff] focus:shadow-[0_0_10px_rgba(255,0,255,0.3)] transition-all placeholder:text-[#6b7280]/50"
+              style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
+            />
+          </div>
         ))}
-        <select value={form.status} onChange={e => setForm({ ...form, status: e.target.value })}
-          className="px-4 py-2.5 rounded-xl text-sm text-white outline-none"
-          style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-          <option value="Active">Active</option>
-          <option value="Inactive">Inactive</option>
-          <option value="Maintenance">Maintenance</option>
-        </select>
+        
+        {/* Status Dropdown */}
+        <div className="relative">
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00ff88] font-bold">{'>'}</span>
+          <select
+            value={form.status}
+            onChange={e => setForm({ ...form, status: e.target.value })}
+            className="w-full bg-[#12121a] text-[#00ff88] border border-[#2a2a3a] pl-10 pr-4 py-3 text-sm outline-none focus:border-[#00ff88] focus:shadow-[0_0_10px_rgba(0,255,136,0.3)] transition-all cursor-pointer appearance-none"
+            style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
+          >
+            <option value="Active" className="bg-[#0a0a0f] text-[#00ff88]">Active</option>
+            <option value="Inactive" className="bg-[#0a0a0f] text-[#ff3366]">Inactive</option>
+            <option value="Maintenance" className="bg-[#0a0a0f] text-[#ffaa00]">Maintenance</option>
+          </select>
+        </div>
       </div>
-      <div className="flex gap-2 mt-4">
-        <button onClick={onSave} className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:scale-105" style={{ background: "linear-gradient(135deg, #6d28d9, #a78bfa)" }}>{saveLabel}</button>
-        <button onClick={onCancel} className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all hover:scale-105" style={{ background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.4)", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
+      
+      <div className="flex gap-4">
+        <button
+          onClick={onSave}
+          className="px-8 py-3 text-xs font-bold uppercase tracking-widest text-[#0a0a0f] bg-[#ff00ff] hover:brightness-110 hover:shadow-[0_0_15px_rgba(255,0,255,0.6)] transition-all"
+          style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
+        >
+          {saveLabel}
+        </button>
+        <button
+          onClick={onCancel}
+          className="px-8 py-3 text-xs font-bold uppercase tracking-widest text-[#6b7280] bg-transparent border border-[#2a2a3a] hover:text-[#e0e0e0] hover:border-[#6b7280] transition-all"
+          style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );
 }
 
+// ─── Status Badge Component ───────────────────────────────────────────────────
 function StatusBadge({ status }) {
   const styles = {
-    Active: { background: "rgba(52,211,153,0.1)", color: "#34d399", border: "1px solid rgba(52,211,153,0.2)" },
-    Inactive: { background: "rgba(239,68,68,0.1)", color: "#fc8181", border: "1px solid rgba(239,68,68,0.2)" },
-    Maintenance: { background: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.2)" },
+    Active: { text: "#00ff88", border: "#00ff88", glow: "rgba(0,255,136,0.2)" },
+    Inactive: { text: "#ff3366", border: "#ff3366", glow: "rgba(255,51,102,0.2)" },
+    Maintenance: { text: "#ffaa00", border: "#ffaa00", glow: "rgba(255,170,0,0.2)" },
   };
-  return <span className="px-2.5 py-1 rounded-lg text-xs font-semibold" style={styles[status] || styles.Inactive}>{status}</span>;
+  const theme = styles[status] || styles.Inactive;
+  
+  return (
+    <span 
+      className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest flex inline-flex items-center gap-2" 
+      style={{ 
+        color: theme.text, 
+        border: `1px solid ${theme.border}50`,
+        background: `${theme.text}10`,
+        boxShadow: `0 0 10px ${theme.glow}`,
+        clipPath: "polygon(0 4px, 4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%)"
+      }}
+    >
+      <span className="w-1.5 h-1.5 bg-current" style={{ boxShadow: `0 0 5px ${theme.text}` }}></span>
+      {status}
+    </span>
+  );
 }
 
+// ─── Main Page ────────────────────────────────────────────────────────────────
 export default function CompanyPlanes() {
   const { id } = useParams();
   const location = useLocation();
@@ -58,12 +111,14 @@ export default function CompanyPlanes() {
         });
     }
   }, [id]);
+  
   const [planes, setPlanes] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
   const [form, setForm] = useState({ modelNo: "", serialNo: "", fuelCapacity: "", status: "Active" });
   const [message, setMessage] = useState("");
   const [visible, setVisible] = useState(false);
+  
   const user = JSON.parse(sessionStorage.getItem("user"));
   const isAdmin = user?.type === "admin";
 
@@ -95,110 +150,270 @@ export default function CompanyPlanes() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: "#05101f", color: "white" }}>
-      <nav style={{ background: "rgba(5,16,31,0.92)", borderBottom: "1px solid rgba(255,255,255,0.06)", backdropFilter: "blur(24px)", position: "sticky", top: 0, zIndex: 100 }}>
-        <div className="max-w-7xl mx-auto px-8 py-3.5 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="AeroNexus" className="w-10 h-10 object-contain" style={{ filter: "drop-shadow(0 0 8px rgba(77,142,240,0.4))" }} />
-            <div>
-              <p className="font-bold text-white text-lg leading-none tracking-tight">Aero<span style={{ color: "#4d8ef0" }}>Nexus</span></p>
-              <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.25)", letterSpacing: "0.15em" }}>CONNECT · INNOVATE · ELEVATE</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <button onClick={() => navigate("/dashboard")} className="px-4 py-2 rounded-xl text-sm font-medium transition-all hover:scale-105" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.6)" }}>← Dashboard</button>
-            <div className="flex items-center gap-3 px-4 py-2 rounded-xl" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: "linear-gradient(135deg, #1a4db5, #4d8ef0)" }}>{user?.username?.charAt(0).toUpperCase()}</div>
-              <div className="leading-tight">
-                <p className="text-sm font-semibold text-white">{user?.username}</p>
-                <p className="text-xs capitalize" style={{ color: "#4d8ef0" }}>{user?.type}</p>
+    <>
+      <style>{`
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes rgbShift {
+          0%, 100% { text-shadow: -2px 0 #ff00ff, 2px 0 #00d4ff; }
+          50% { text-shadow: 2px 0 #ff00ff, -2px 0 #00d4ff; }
+        }
+        .cyber-glitch { animation: rgbShift 3s infinite alternate; }
+        .cyber-scanlines::after {
+          content: "";
+          position: fixed;
+          inset: 0;
+          background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.3) 2px, rgba(0, 0, 0, 0.3) 4px);
+          pointer-events: none;
+          z-index: 9999;
+        }
+        .cyber-grid {
+          background-image: 
+            linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+          background-size: 50px 50px;
+        }
+        .num-input::-webkit-inner-spin-button,
+        .num-input::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        .num-input { -moz-appearance: textfield; }
+      `}</style>
+
+      <div className="min-h-screen bg-[#0a0a0f] text-[#e0e0e0] font-mono cyber-scanlines cyber-grid relative overflow-x-hidden pb-20">
+        
+        {/* Navbar */}
+        <nav className="border-b border-[#2a2a3a] bg-[#12121a]/80 backdrop-blur-md sticky top-0 z-50 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+          <div className="h-1 w-full bg-gradient-to-r from-[#ff00ff] via-[#00d4ff] to-[#00ff88]"></div>
+
+          <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            
+            {/* Interactive Logo Area */}
+            <div 
+              className="flex items-center gap-4 cursor-pointer group"
+              onClick={() => navigate("/dashboard")}
+            >
+              <div className="w-10 h-10 border border-[#00ff88] p-1 shadow-[0_0_10px_rgba(0,255,136,0.2)] relative transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(0,255,136,0.6)] group-hover:border-[#00ff88] group-hover:scale-105"
+                   style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}>
+                <img src="/logo.png" alt="AeroNexus" className="w-full h-full object-contain filter drop-shadow-[0_0_5px_#00ff88]" />
               </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <div className="max-w-7xl mx-auto px-8 py-10">
-        <div className="mb-8" style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(10px)", transition: "all 0.5s ease" }}>
-          <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#a78bfa" }}>{companyName}</p>
-          <h1 className="text-3xl font-bold text-white mb-1">Fleet Management</h1>
-          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.875rem" }}>Aircraft registered under this airline</p>
-        </div>
-
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          {[
-            { label: "Total Aircraft", value: planes.length, color: "#a78bfa" },
-            { label: "Active", value: planes.filter(p => p.status === "Active").length, color: "#34d399" },
-            { label: "Maintenance", value: planes.filter(p => p.status === "Maintenance").length, color: "#fbbf24" },
-          ].map((s, i) => (
-            <div key={i} className="rounded-2xl px-6 py-4 flex items-center justify-between" style={{ background: "linear-gradient(135deg, #0d1b2e, #0a1628)", border: `1px solid ${s.color}20`, opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(15px)", transition: `all 0.5s ease ${i * 0.1 + 0.2}s` }}>
               <div>
-                <p className="text-2xl font-bold" style={{ color: s.color }}>{s.value}</p>
-                <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>{s.label}</p>
+                <p className="font-black text-[#e0e0e0] text-xl uppercase tracking-widest leading-none cyber-glitch transition-colors duration-300 group-hover:text-[#00ff88]" style={{ fontFamily: '"Orbitron", "Share Tech Mono", monospace' }}>
+                  Aero<span className="text-[#00ff88]">Nexus</span>
+                </p>
+                <p className="text-[9px] mt-1 text-[#00ff88] tracking-[0.3em] uppercase flex items-center gap-2">
+                  CONNECT · INNOVATE · ELEVATE
+                </p>
               </div>
-              <div className="w-2 h-2 rounded-full" style={{ background: s.color, boxShadow: `0 0 8px ${s.color}` }}></div>
             </div>
-          ))}
-        </div>
 
-        <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.06)", background: "linear-gradient(180deg, #0d1b2e 0%, #091525 100%)" }}>
-          <div className="px-6 py-5 flex justify-between items-center" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-            <div>
-              <h2 className="font-bold text-white text-lg">Aircraft Fleet</h2>
-              <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.25)" }}>{planes.length} aircraft registered</p>
-            </div>
-            <div className="flex items-center gap-3">
-              {message && <span className="text-xs px-3 py-1.5 rounded-lg font-medium" style={{ background: "rgba(52,211,153,0.1)", color: "#34d399", border: "1px solid rgba(52,211,153,0.2)" }}>✓ {message}</span>}
-              {isAdmin && (
-                <button onClick={() => { setShowAdd(!showAdd); setEditIndex(null); resetForm(); }} className="px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all hover:scale-105" style={{ background: "linear-gradient(135deg, #6d28d9, #a78bfa)", boxShadow: "0 4px 15px rgba(167,139,250,0.25)" }}>
-                  + Add Plane
-                </button>
-              )}
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={() => navigate("/dashboard")} 
+                className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#ff00ff] border border-[#ff00ff]/50 hover:bg-[#ff00ff] hover:text-[#0a0a0f] hover:shadow-[0_0_15px_rgba(255,0,255,0.6)] transition-all"
+                style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
+              >
+                ← Dashboard
+              </button>
+
+              <div className="flex items-center gap-3 px-4 py-2 bg-[#0a0a0f] border border-[#2a2a3a]"
+                   style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}>
+                <div className="w-6 h-6 flex items-center justify-center font-bold text-xs bg-[#00ff88] text-[#0a0a0f]">
+                  {user?.username?.charAt(0).toUpperCase()}
+                </div>
+                <div className="leading-tight text-right hidden sm:block">
+                  <p className="text-xs font-bold text-[#e0e0e0]">{user?.username}</p>
+                  <p className="text-[9px] uppercase tracking-widest text-[#6b7280] capitalize">{user?.type}</p>
+                </div>
+              </div>
             </div>
           </div>
+        </nav>
 
-          <div className="px-6 pt-4">
-            {showAdd && <FormPanel form={form} setForm={setForm} onSave={handleAdd} onCancel={() => { setShowAdd(false); resetForm(); }} saveLabel="Save Plane" />}
-            {editIndex !== null && <FormPanel form={form} setForm={setForm} onSave={handleUpdate} onCancel={() => { setEditIndex(null); resetForm(); }} saveLabel="Update Plane" />}
+        {/* Main Content */}
+        <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
+          
+          {/* Header */}
+          <div className="mb-12 border-l-4 border-[#ff00ff] pl-6 relative" style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(10px)", transition: "all 0.5s ease" }}>
+            <div className="absolute -left-[6px] top-0 w-2 h-2 bg-[#ff00ff] shadow-[0_0_10px_#ff00ff]"></div>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#ff00ff] mb-2">{companyName}</p>
+            <h1 className="text-3xl font-bold text-[#e0e0e0] mb-2 font-sans tracking-tight">
+              Fleet Management
+            </h1>
+            <p className="text-[#6b7280] text-sm flex items-center gap-2">
+              <span className="text-[#ff00ff] font-bold">{'>'}</span> Aircraft registered under this airline
+            </p>
           </div>
 
-          <table className="w-full text-left">
-            <thead>
-              <tr style={{ background: "rgba(255,255,255,0.02)" }}>
-                {["Model", "Serial No", "Fuel Capacity", "Status", isAdmin && ""].filter(Boolean).map((h, i) => (
-                  <th key={i} className="px-6 py-3 text-xs font-bold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.2)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {planes.map((p, i) => (
-                <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)", opacity: visible ? 1 : 0, transform: visible ? "translateX(0)" : "translateX(-10px)", transition: `all 0.4s ease ${i * 0.05 + 0.3}s` }}
-                  onMouseEnter={e => e.currentTarget.style.background = "rgba(167,139,250,0.04)"}
-                  onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm text-white" style={{ background: "linear-gradient(135deg, #4c1d95, #6d28d9)" }}>{p.modelNo?.charAt(0)}</div>
-                      <span className="font-semibold text-white text-sm">{p.modelNo}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>{p.serialNo}</td>
-                  <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>{p.fuelCapacity} L</td>
-                  <td className="px-6 py-4"><StatusBadge status={p.status} /></td>
-                  {isAdmin && (
-                    <td className="px-6 py-4">
-                      <div className="flex gap-2">
-                        <button onClick={() => handleEdit(i)} className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:scale-105" style={{ background: "rgba(245,158,11,0.08)", color: "#fbbf24", border: "1px solid rgba(245,158,11,0.15)" }} onMouseEnter={e => e.currentTarget.style.background = "rgba(245,158,11,0.18)"} onMouseLeave={e => e.currentTarget.style.background = "rgba(245,158,11,0.08)"}>Edit</button>
-                        <button onClick={() => handleDelete(i)} className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:scale-105" style={{ background: "rgba(239,68,68,0.08)", color: "#fc8181", border: "1px solid rgba(239,68,68,0.15)" }} onMouseEnter={e => e.currentTarget.style.background = "rgba(239,68,68,0.18)"} onMouseLeave={e => e.currentTarget.style.background = "rgba(239,68,68,0.08)"}>Delete</button>
-                      </div>
-                    </td>
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+            {[
+              { label: "Total Aircraft", value: planes.length, color: "#ff00ff" },
+              { label: "Active", value: planes.filter(p => p.status === "Active").length, color: "#00ff88" },
+              { label: "Maintenance", value: planes.filter(p => p.status === "Maintenance").length, color: "#ffaa00" },
+            ].map((s, i) => (
+              <div 
+                key={i} 
+                className="relative overflow-hidden p-6 transition-all duration-300 font-mono group"
+                style={{ 
+                  background: "#12121a", 
+                  border: `1px solid ${s.color}40`,
+                  clipPath: "polygon(0 15px, 15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)",
+                  opacity: visible ? 1 : 0, 
+                  transform: visible ? "translateY(0)" : "translateY(15px)", 
+                  transition: `all 0.5s ease ${i * 0.1}s` 
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = s.color;
+                  e.currentTarget.style.boxShadow = `inset 0 0 20px ${s.color}10`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = `${s.color}40`;
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 opacity-20" style={{ background: `radial-gradient(circle at top right, ${s.color}, transparent 70%)` }}></div>
+                <div className="absolute top-0 left-0 w-3 h-3 border-t border-l" style={{ borderColor: s.color }}></div>
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r" style={{ borderColor: s.color }}></div>
+                
+                <p className="text-4xl font-black mb-2 tabular-nums" style={{ color: "#e0e0e0", textShadow: `0 0 10px ${s.color}40` }}>{s.value}</p>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-current shadow-md" style={{ color: s.color, boxShadow: `0 0 8px ${s.color}` }}></span>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6b7280]">{s.label}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Table Container */}
+          <div className="bg-[#12121a] border border-[#2a2a3a] relative" style={{ clipPath: "polygon(0 20px, 20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%)" }}>
+            
+            <div className="bg-[#0a0a0f] border-b border-[#2a2a3a] px-6 py-2 flex justify-between items-center">
+              <div className="flex gap-2">
+                <div className="w-3 h-3 rounded-none bg-[#ff3366] opacity-80"></div>
+                <div className="w-3 h-3 rounded-none bg-[#ffaa00] opacity-80"></div>
+                <div className="w-3 h-3 rounded-none bg-[#00ff88] opacity-80"></div>
+              </div>
+            </div>
+
+            <div className="px-6 py-6 flex justify-between items-end border-b border-[#2a2a3a]">
+              <div>
+                <h2 className="font-bold text-[#e0e0e0] text-lg flex items-center gap-2">
+                  <span className="text-[#ff00ff]">{'>'}</span> Aircraft Fleet
+                </h2>
+                <p className="text-xs mt-1 text-[#6b7280]">
+                  {planes.length} aircraft registered
+                </p>
+              </div>
+              <div className="flex flex-col items-end gap-3">
+                {message && (
+                  <span className="text-xs px-3 py-1 font-bold bg-[#00ff88]/10 text-[#00ff88] border border-[#00ff88]/50 shadow-[0_0_10px_rgba(0,255,136,0.2)]">
+                    ✓ {message}
+                  </span>
+                )}
+                {isAdmin && (
+                  <button 
+                    onClick={() => { setShowAdd(!showAdd); setEditIndex(null); resetForm(); }} 
+                    className="px-6 py-2 text-xs font-bold uppercase tracking-widest text-[#0a0a0f] bg-[#ff00ff] hover:brightness-110 hover:shadow-[0_0_15px_rgba(255,0,255,0.6)] transition-all"
+                    style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
+                  >
+                    {showAdd ? "✕ Cancel" : "+ Add Plane"}
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="px-6 pt-6 bg-[#0a0a0f]">
+              {showAdd && <FormPanel form={form} setForm={setForm} onSave={handleAdd} onCancel={() => { setShowAdd(false); resetForm(); }} saveLabel="Save Plane" />}
+              {editIndex !== null && <FormPanel form={form} setForm={setForm} onSave={handleUpdate} onCancel={() => { setEditIndex(null); resetForm(); }} saveLabel="Update Plane" />}
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-[#0a0a0f]">
+                    {["Model", "Serial No", "Fuel Capacity", "Status", isAdmin && "Actions"].filter(Boolean).map((h, i) => (
+                      <th key={i} className="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#6b7280] border-b border-[#2a2a3a]">
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {planes.map((p, i) => (
+                    <tr
+                      key={i}
+                      className="font-mono text-sm transition-all duration-200 group"
+                      style={{ 
+                        borderBottom: "1px solid #2a2a3a", 
+                        background: "#0a0a0f",
+                        opacity: visible ? 1 : 0, 
+                        transform: visible ? "translateX(0)" : "translateX(-10px)", 
+                        transition: `all 0.4s ease ${i * 0.05 + 0.1}s` 
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = "#12121a";
+                        e.currentTarget.style.boxShadow = "inset 2px 0 0 #ff00ff";
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = "#0a0a0f";
+                        e.currentTarget.style.boxShadow = "none";
+                      }}
+                    >
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div 
+                            className="w-10 h-10 flex items-center justify-center font-black text-lg text-[#0a0a0f]" 
+                            style={{ 
+                              background: "#ff00ff",
+                              clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)",
+                              boxShadow: "0 0 10px rgba(255,0,255,0.5)"
+                            }}
+                          >
+                            {p.modelNo?.charAt(0)}
+                          </div>
+                          <span className="font-bold text-[#e0e0e0] group-hover:text-[#ff00ff] transition-colors">{p.modelNo}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-[#6b7280] font-bold">{p.serialNo}</td>
+                      <td className="px-6 py-4 text-[#e0e0e0]">{p.fuelCapacity} L</td>
+                      <td className="px-6 py-4"><StatusBadge status={p.status} /></td>
+                      
+                      {isAdmin && (
+                        <td className="px-6 py-4">
+                          <div className="flex gap-2">
+                            <button 
+                              onClick={() => handleEdit(i)} 
+                              className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest transition-all duration-150 text-[#ffaa00] border border-[#ffaa00]/50 hover:bg-[#ffaa00] hover:text-[#0a0a0f] hover:shadow-[0_0_10px_rgba(255,170,0,0.8)]"
+                              style={{ clipPath: "polygon(0 4px, 4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%)" }}
+                            >
+                              EDIT
+                            </button>
+                            <button 
+                              onClick={() => handleDelete(i)} 
+                              className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest transition-all duration-150 text-[#ff3366] border border-[#ff3366]/50 hover:bg-[#ff3366] hover:text-[#0a0a0f] hover:shadow-[0_0_10px_rgba(255,51,102,0.8)]"
+                              style={{ clipPath: "polygon(0 4px, 4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%)" }}
+                            >
+                              DELETE
+                            </button>
+                          </div>
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                  {planes.length === 0 && (
+                    <tr>
+                      <td colSpan="5" className="px-6 py-20 text-center border-b border-[#2a2a3a]">
+                        <p className="text-[#6b7280] text-sm">No aircraft registered for <span className="text-[#e0e0e0] font-bold">{companyName}</span>.</p>
+                      </td>
+                    </tr>
                   )}
-                </tr>
-              ))}
-              {planes.length === 0 && <tr><td colSpan="5" className="px-6 py-20 text-center text-sm" style={{ color: "rgba(255,255,255,0.2)" }}>No aircraft registered for {companyName}.</td></tr>}
-            </tbody>
-          </table>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
