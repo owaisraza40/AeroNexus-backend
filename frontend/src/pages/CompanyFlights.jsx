@@ -22,50 +22,55 @@ function PlaneSearchSelect({ planes, value, onChange }) {
   const selected = planes.find(p => p.modelNo === value);
 
   return (
-    <div ref={boxRef} className="relative col-span-2">
-      <button
-        type="button"
-        onClick={() => setOpen(o => !o)}
-        className="w-full px-4 py-2.5 rounded-xl text-sm text-left outline-none flex items-center justify-between transition-all"
-        style={{
-          background: "rgba(255,255,255,0.04)",
-          border: open ? "1px solid rgba(52,211,153,0.5)" : "1px solid rgba(255,255,255,0.08)",
-          color: selected ? "white" : "rgba(255,255,255,0.3)",
-        }}
-      >
-        <span>
-          {planes.length === 0
-            ? "No active planes available"
-            : selected
-              ? `${selected.modelNo}  —  ${selected.serialNo}`
-              : "Select a plane…"}
-        </span>
-        <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "10px" }}>▾</span>
-      </button>
+    <div ref={boxRef} className="relative col-span-1 md:col-span-2 font-mono">
+      <div className="relative">
+        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00ff88] font-bold z-10">{'>'}</span>
+        <button
+          type="button"
+          onClick={() => setOpen(o => !o)}
+          className="w-full bg-[#12121a] border pl-10 pr-4 py-3 text-sm text-left outline-none flex items-center justify-between transition-all"
+          style={{
+            borderColor: open ? "#00ff88" : "#2a2a3a",
+            boxShadow: open ? "0 0 10px rgba(0,255,136,0.3)" : "none",
+            color: selected ? "#00ff88" : "rgba(107,114,128,0.5)",
+            clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)"
+          }}
+        >
+          <span className="uppercase tracking-wider font-bold">
+            {planes.length === 0
+              ? "SYS.ERR: NO_ACTIVE_UNITS"
+              : selected
+                ? `${selected.modelNo} // ${selected.serialNo}`
+                : "AWAITING_AIRCRAFT_SELECTION..."}
+          </span>
+          <span className="text-[#00ff88] text-xs">▼</span>
+        </button>
+      </div>
 
       {open && (
         <div
-          className="absolute z-30 mt-1.5 w-full rounded-xl overflow-hidden shadow-2xl"
-          style={{ background: "#0b1929", border: "1px solid rgba(52,211,153,0.15)" }}
+          className="absolute z-30 mt-2 w-full bg-[#0a0a0f] border border-[#00ff88] shadow-[0_0_20px_rgba(0,255,136,0.2)]"
+          style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
         >
           {/* Search input */}
-          <div className="p-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="p-3 border-b border-[#2a2a3a] relative">
+            <span className="absolute left-6 top-1/2 -translate-y-1/2 text-[#00ff88] text-xs font-bold">?</span>
             <input
               autoFocus
               type="text"
-              placeholder="Search by model or serial no…"
+              placeholder="QUERY_MODEL_OR_SERIAL..."
               value={query}
               onChange={e => setQuery(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg text-sm text-white outline-none"
-              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
+              className="w-full bg-[#12121a] text-[#00ff88] border border-[#2a2a3a] pl-8 pr-3 py-2 text-xs uppercase outline-none focus:border-[#00ff88]"
+              style={{ clipPath: "polygon(0 4px, 4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%)" }}
             />
           </div>
 
           {/* Options list */}
-          <div className="max-h-52 overflow-y-auto">
+          <div className="max-h-52 overflow-y-auto cyber-scrollbar">
             {filtered.length === 0 ? (
-              <p className="px-4 py-3 text-sm" style={{ color: "rgba(255,255,255,0.25)" }}>
-                No matching active planes.
+              <p className="px-4 py-4 text-xs font-bold text-[#ff3366] uppercase tracking-widest text-center">
+                NULL_RESULT
               </p>
             ) : (
               filtered.map(p => (
@@ -73,21 +78,20 @@ function PlaneSearchSelect({ planes, value, onChange }) {
                   type="button"
                   key={p.serialNo}
                   onClick={() => { onChange(p.modelNo); setOpen(false); setQuery(""); }}
-                  className="w-full text-left px-4 py-2.5 text-sm transition-colors"
+                  className="w-full text-left px-4 py-3 text-xs uppercase tracking-widest transition-all border-l-2 border-transparent hover:border-[#00ff88] group flex justify-between items-center"
                   style={{
-                    background: p.modelNo === value ? "rgba(52,211,153,0.12)" : "transparent",
-                    color: "white",
+                    background: p.modelNo === value ? "rgba(0,255,136,0.1)" : "transparent",
+                    color: p.modelNo === value ? "#00ff88" : "#e0e0e0",
                   }}
-                  onMouseEnter={e => e.currentTarget.style.background = "rgba(52,211,153,0.08)"}
-                  onMouseLeave={e => e.currentTarget.style.background = p.modelNo === value ? "rgba(52,211,153,0.12)" : "transparent"}
+                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(0,255,136,0.05)"; e.currentTarget.style.color = "#00ff88"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = p.modelNo === value ? "rgba(0,255,136,0.1)" : "transparent"; e.currentTarget.style.color = p.modelNo === value ? "#00ff88" : "#e0e0e0"; }}
                 >
-                  <span className="font-semibold">{p.modelNo}</span>
-                  <span style={{ color: "rgba(255,255,255,0.35)" }}> — {p.serialNo}</span>
-                  <span
-                    className="ml-2 px-1.5 py-0.5 rounded text-xs font-semibold"
-                    style={{ background: "rgba(52,211,153,0.1)", color: "#34d399" }}
-                  >
-                    Active
+                  <div>
+                    <span className="font-bold">{p.modelNo}</span>
+                    <span className="text-[#6b7280] group-hover:text-[#00ff88]/70"> // {p.serialNo}</span>
+                  </div>
+                  <span className="px-1.5 py-0.5 text-[9px] font-bold bg-[#00ff88]/10 text-[#00ff88] border border-[#00ff88]/50 shadow-[0_0_5px_rgba(0,255,136,0.2)]">
+                    ACTIVE
                   </span>
                 </button>
               ))
@@ -102,28 +106,32 @@ function PlaneSearchSelect({ planes, value, onChange }) {
 // ─── Add Flight form (always Scheduled, no status picker) ─────────────────────
 function AddFlightPanel({ form, setForm, onSave, onCancel, planes }) {
   return (
-    <div
-      className="rounded-2xl p-6 mb-6"
-      style={{ background: "rgba(52,211,153,0.03)", border: "1px solid rgba(52,211,153,0.15)" }}
+    <div 
+      className="p-6 mb-8 font-mono relative bg-[#0a0a0f] border border-[#2a2a3a]"
+      style={{ clipPath: "polygon(0 15px, 15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)" }}
     >
-      <p className="text-sm font-semibold text-white mb-4">New Flight</p>
-      <div className="grid grid-cols-2 gap-3 mb-3">
+      <p className="text-sm font-bold text-[#00ff88] mb-4 uppercase tracking-[0.2em] flex items-center gap-2">
+        <span className="w-2 h-2 bg-[#00ff88] animate-pulse"></span>
+        Initialize New Flight Vector
+      </p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
         {[
           { ph: "From (Airport)", key: "airport", type: "text" },
           { ph: "To (Destination)", key: "destination", type: "text" },
           { ph: "Distance (km)", key: "distance", type: "number" },
         ].map(f => (
-          <input
-            key={f.key}
-            type={f.type}
-            placeholder={f.ph}
-            value={form[f.key]}
-            onChange={e => setForm({ ...form, [f.key]: e.target.value })}
-            className="px-4 py-2.5 rounded-xl text-sm text-white outline-none transition-all"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
-            onFocus={e => e.target.style.border = "1px solid rgba(52,211,153,0.5)"}
-            onBlur={e => e.target.style.border = "1px solid rgba(255,255,255,0.08)"}
-          />
+          <div key={f.key} className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00ff88] font-bold">{'>'}</span>
+            <input
+              type={f.type}
+              placeholder={f.ph}
+              value={form[f.key]}
+              onChange={e => setForm({ ...form, [f.key]: e.target.value })}
+              className="num-input w-full bg-[#12121a] text-[#00ff88] border border-[#2a2a3a] pl-10 pr-4 py-3 text-sm outline-none focus:border-[#00ff88] focus:shadow-[0_0_10px_rgba(0,255,136,0.3)] transition-all placeholder:text-[#6b7280]/50 uppercase"
+              style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
+            />
+          </div>
         ))}
 
         {/* Searchable plane selector spans full width */}
@@ -135,27 +143,28 @@ function AddFlightPanel({ form, setForm, onSave, onCancel, planes }) {
       </div>
 
       {/* Status hint */}
-      <p className="text-xs mt-1 mb-4" style={{ color: "rgba(255,255,255,0.25)" }}>
-        ✦ New flights are always saved as{" "}
-        <span style={{ color: "#fbbf24", fontWeight: 600 }}>Scheduled</span>.
-        Change status later from the <span style={{ color: "#4d8ef0" }}>Records</span> page.
-      </p>
+      <div className="mb-6 border-l-2 border-[#ffaa00] pl-3 py-1">
+        <p className="text-[10px] text-[#6b7280] uppercase tracking-[0.1em]">
+          <span className="text-[#ffaa00] font-bold mr-2">SYS.NOTE:</span> 
+          New flights are locked to <span className="text-[#ffaa00] font-bold">SCHEDULED</span> status. Modify via <span className="text-[#00d4ff] font-bold cursor-pointer">RECORDS</span> module.
+        </p>
+      </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-4">
         <button
           onClick={onSave}
           disabled={!form.airport || !form.destination || !form.modelno || !form.distance}
-          className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:scale-105 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-          style={{ background: "linear-gradient(135deg, #065f46, #34d399)" }}
+          className="px-8 py-3 text-xs font-bold uppercase tracking-widest text-[#0a0a0f] bg-[#00ff88] hover:brightness-110 hover:shadow-[0_0_15px_rgba(0,255,136,0.6)] transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-none"
+          style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
         >
-          Save Flight
+          Execute_Save
         </button>
         <button
           onClick={onCancel}
-          className="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all hover:scale-105"
-          style={{ background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.4)", border: "1px solid rgba(255,255,255,0.08)" }}
+          className="px-8 py-3 text-xs font-bold uppercase tracking-widest text-[#6b7280] bg-transparent border border-[#2a2a3a] hover:text-[#e0e0e0] hover:border-[#6b7280] transition-all"
+          style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
         >
-          Cancel
+          Abort
         </button>
       </div>
     </div>
@@ -165,12 +174,24 @@ function AddFlightPanel({ form, setForm, onSave, onCancel, planes }) {
 // ─── Status badge ─────────────────────────────────────────────────────────────
 function StatusBadge({ status }) {
   const styles = {
-    Completed: { background: "rgba(52,211,153,0.1)", color: "#34d399", border: "1px solid rgba(52,211,153,0.2)" },
-    Cancelled: { background: "rgba(239,68,68,0.1)", color: "#fc8181", border: "1px solid rgba(239,68,68,0.2)" },
-    Scheduled: { background: "rgba(251,191,36,0.1)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.2)" },
+    Completed: { text: "#00d4ff", border: "#00d4ff", glow: "rgba(0,212,255,0.2)" }, // Cyan for completed here
+    Cancelled: { text: "#ff3366", border: "#ff3366", glow: "rgba(255,51,102,0.2)" },
+    Scheduled: { text: "#ffaa00", border: "#ffaa00", glow: "rgba(255,170,0,0.2)" },
   };
+  const theme = styles[status] || styles.Scheduled;
+  
   return (
-    <span className="px-2.5 py-1 rounded-lg text-xs font-semibold" style={styles[status] || styles.Scheduled}>
+    <span 
+      className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest flex inline-flex items-center gap-2" 
+      style={{ 
+        color: theme.text, 
+        border: `1px solid ${theme.border}50`,
+        background: `${theme.text}10`,
+        boxShadow: `0 0 10px ${theme.glow}`,
+        clipPath: "polygon(0 4px, 4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%)"
+      }}
+    >
+      <span className="w-1.5 h-1.5 bg-current" style={{ boxShadow: `0 0 5px ${theme.text}` }}></span>
       {status}
     </span>
   );
@@ -241,7 +262,7 @@ export default function CompanyFlights() {
     );
     const data = await res.json();
     if (data.success) {
-      setMessage("Flight added!");
+      setMessage("Flight scheduled successfully.");
       setShowAdd(false);
       resetForm();
       fetchFlights();
@@ -251,183 +272,268 @@ export default function CompanyFlights() {
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen" style={{ background: "#05101f", color: "white" }}>
+    <>
+      <style>{`
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes rgbShift {
+          0%, 100% { text-shadow: -2px 0 #ff00ff, 2px 0 #00d4ff; }
+          50% { text-shadow: 2px 0 #ff00ff, -2px 0 #00d4ff; }
+        }
+        .cyber-glitch { animation: rgbShift 3s infinite alternate; }
+        .cyber-scanlines::after {
+          content: "";
+          position: fixed;
+          inset: 0;
+          background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.3) 2px, rgba(0, 0, 0, 0.3) 4px);
+          pointer-events: none;
+          z-index: 9999;
+        }
+        .cyber-grid {
+          background-image: 
+            linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+          background-size: 50px 50px;
+        }
+        .num-input::-webkit-inner-spin-button,
+        .num-input::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        .num-input { -moz-appearance: textfield; }
+        .cyber-scrollbar::-webkit-scrollbar { width: 6px; }
+        .cyber-scrollbar::-webkit-scrollbar-track { background: #0a0a0f; }
+        .cyber-scrollbar::-webkit-scrollbar-thumb { background: #2a2a3a; }
+        .cyber-scrollbar::-webkit-scrollbar-thumb:hover { background: #00ff88; }
+      `}</style>
 
-      {/* Nav */}
-      <nav style={{ background: "rgba(5,16,31,0.92)", borderBottom: "1px solid rgba(255,255,255,0.06)", backdropFilter: "blur(24px)", position: "sticky", top: 0, zIndex: 100 }}>
-        <div className="max-w-7xl mx-auto px-8 py-3.5 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="AeroNexus" className="w-10 h-10 object-contain" style={{ filter: "drop-shadow(0 0 8px rgba(77,142,240,0.4))" }} />
-            <div>
-              <p className="font-bold text-white text-lg leading-none tracking-tight">
-                Aero<span style={{ color: "#4d8ef0" }}>Nexus</span>
-              </p>
-              <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.25)", letterSpacing: "0.15em" }}>
-                CONNECT · INNOVATE · ELEVATE
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
+      <div className="min-h-screen bg-[#0a0a0f] text-[#e0e0e0] font-mono cyber-scanlines cyber-grid relative overflow-x-hidden pb-20">
+
+        {/* Navbar */}
+        <nav className="border-b border-[#2a2a3a] bg-[#12121a]/80 backdrop-blur-md sticky top-0 z-50 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+          <div className="h-1 w-full bg-gradient-to-r from-[#ff00ff] via-[#00d4ff] to-[#00ff88]"></div>
+
+          <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            
+            {/* Interactive Logo Area */}
+            <div 
+              className="flex items-center gap-4 cursor-pointer group"
               onClick={() => navigate("/dashboard")}
-              className="px-4 py-2 rounded-xl text-sm font-medium transition-all hover:scale-105"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.6)" }}
             >
-              ← Dashboard
-            </button>
-            <div className="flex items-center gap-3 px-4 py-2 rounded-xl" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: "linear-gradient(135deg, #1a4db5, #4d8ef0)" }}>
-                {user?.username?.charAt(0).toUpperCase()}
+              <div className="w-10 h-10 border border-[#00ff88] p-1 shadow-[0_0_10px_rgba(0,255,136,0.2)] relative transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(0,255,136,0.6)] group-hover:border-[#00ff88] group-hover:scale-105"
+                   style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}>
+                <img src="/logo.png" alt="AeroNexus" className="w-full h-full object-contain filter drop-shadow-[0_0_5px_#00ff88]" />
               </div>
-              <div className="leading-tight">
-                <p className="text-sm font-semibold text-white">{user?.username}</p>
-                <p className="text-xs capitalize" style={{ color: "#4d8ef0" }}>{user?.type}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <div className="max-w-7xl mx-auto px-8 py-10">
-
-        {/* Page header */}
-        <div
-          className="mb-8"
-          style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(10px)", transition: "all 0.5s ease" }}
-        >
-          <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: "#34d399" }}>{companyName}</p>
-          <h1 className="text-3xl font-bold text-white mb-1">Flight Schedule</h1>
-          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.875rem" }}>Active and upcoming flights for this airline</p>
-        </div>
-
-        {/* Stat cards */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          {[
-            { label: "Total Flights",  value: flights.length,                                          color: "#34d399" },
-            { label: "Scheduled",      value: flights.filter(f => f.status === "Scheduled").length,     color: "#fbbf24" },
-            { label: "Completed",      value: flights.filter(f => f.status === "Completed").length,     color: "#4d8ef0" },
-          ].map((s, i) => (
-            <div
-              key={i}
-              className="rounded-2xl px-6 py-4 flex items-center justify-between"
-              style={{
-                background: "linear-gradient(135deg, #0d1b2e, #0a1628)",
-                border: `1px solid ${s.color}20`,
-                opacity: visible ? 1 : 0,
-                transform: visible ? "translateY(0)" : "translateY(15px)",
-                transition: `all 0.5s ease ${i * 0.1 + 0.2}s`,
-              }}
-            >
               <div>
-                <p className="text-2xl font-bold" style={{ color: s.color }}>{s.value}</p>
-                <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>{s.label}</p>
+                <p className="font-black text-[#e0e0e0] text-xl uppercase tracking-widest leading-none cyber-glitch transition-colors duration-300 group-hover:text-[#00ff88]" style={{ fontFamily: '"Orbitron", "Share Tech Mono", monospace' }}>
+                  Aero<span className="text-[#00ff88]">Nexus</span>
+                </p>
+                <p className="text-[9px] mt-1 text-[#00ff88] tracking-[0.3em] uppercase flex items-center gap-2">
+                  CONNECT · INNOVATE · ELEVATE
+                </p>
               </div>
-              <div className="w-2 h-2 rounded-full" style={{ background: s.color, boxShadow: `0 0 8px ${s.color}` }} />
             </div>
-          ))}
-        </div>
 
-        {/* Flights table card */}
-        <div
-          className="rounded-2xl overflow-hidden"
-          style={{ border: "1px solid rgba(255,255,255,0.06)", background: "linear-gradient(180deg, #0d1b2e 0%, #091525 100%)" }}
-        >
-          {/* Header row */}
-          <div className="px-6 py-5 flex justify-between items-center" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-            <div>
-              <h2 className="font-bold text-white text-lg">Flights</h2>
-              <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.25)" }}>{flights.length} flights total</p>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => navigate("/dashboard")}
+                className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#00ff88] border border-[#00ff88]/50 hover:bg-[#00ff88] hover:text-[#0a0a0f] hover:shadow-[0_0_15px_rgba(0,255,136,0.6)] transition-all"
+                style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
+              >
+                ← Dashboard
+              </button>
+
+              <div className="flex items-center gap-3 px-4 py-2 bg-[#0a0a0f] border border-[#2a2a3a]"
+                   style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}>
+                <div className="w-6 h-6 flex items-center justify-center font-bold text-xs bg-[#00ff88] text-[#0a0a0f]">
+                  {user?.username?.charAt(0).toUpperCase()}
+                </div>
+                <div className="leading-tight text-right hidden sm:block">
+                  <p className="text-xs font-bold text-[#e0e0e0]">{user?.username}</p>
+                  <p className="text-[9px] uppercase tracking-widest text-[#6b7280] capitalize">{user?.type}</p>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-3">
-              {message && (
-                <span
-                  className="text-xs px-3 py-1.5 rounded-lg font-medium"
-                  style={{ background: "rgba(52,211,153,0.1)", color: "#34d399", border: "1px solid rgba(52,211,153,0.2)" }}
-                >
-                  ✓ {message}
-                </span>
+          </div>
+        </nav>
+
+        <div className="max-w-7xl mx-auto px-6 py-12 relative z-10">
+
+          {/* Page header */}
+          <div
+            className="mb-12 border-l-4 border-[#00ff88] pl-6 relative"
+            style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(10px)", transition: "all 0.5s ease" }}
+          >
+            <div className="absolute -left-[6px] top-0 w-2 h-2 bg-[#00ff88] shadow-[0_0_10px_#00ff88]"></div>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#00ff88] mb-2">{companyName}</p>
+            <h1 className="text-3xl font-bold text-[#e0e0e0] mb-2 font-sans tracking-tight">Flight Schedule</h1>
+            <p className="text-[#6b7280] text-sm flex items-center gap-2">
+              <span className="text-[#00ff88] font-bold">{'>'}</span> Active and upcoming flights for this airline
+            </p>
+          </div>
+
+          {/* Stat cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
+            {[
+              { label: "Total Flights",  value: flights.length,                                          color: "#00ff88" },
+              { label: "Scheduled",      value: flights.filter(f => f.status === "Scheduled").length,     color: "#ffaa00" },
+              { label: "Completed",      value: flights.filter(f => f.status === "Completed").length,     color: "#00d4ff" },
+            ].map((s, i) => (
+              <div 
+                key={i} 
+                className="relative overflow-hidden p-6 transition-all duration-300 font-mono group"
+                style={{ 
+                  background: "#12121a", 
+                  border: `1px solid ${s.color}40`,
+                  clipPath: "polygon(0 15px, 15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)",
+                  opacity: visible ? 1 : 0, 
+                  transform: visible ? "translateY(0)" : "translateY(15px)", 
+                  transition: `all 0.5s ease ${i * 0.1}s` 
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = s.color;
+                  e.currentTarget.style.boxShadow = `inset 0 0 20px ${s.color}10`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = `${s.color}40`;
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 opacity-20" style={{ background: `radial-gradient(circle at top right, ${s.color}, transparent 70%)` }}></div>
+                <div className="absolute top-0 left-0 w-3 h-3 border-t border-l" style={{ borderColor: s.color }}></div>
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r" style={{ borderColor: s.color }}></div>
+                
+                <p className="text-4xl font-black mb-2 tabular-nums" style={{ color: "#e0e0e0", textShadow: `0 0 10px ${s.color}40` }}>{s.value}</p>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-current shadow-md" style={{ color: s.color, boxShadow: `0 0 8px ${s.color}` }}></span>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#6b7280]">{s.label}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Flights table card */}
+          <div
+            className="bg-[#12121a] border border-[#2a2a3a] relative"
+            style={{ clipPath: "polygon(0 20px, 20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%)" }}
+          >
+            {/* Terminal Header */}
+            <div className="bg-[#0a0a0f] border-b border-[#2a2a3a] px-6 py-2 flex justify-between items-center">
+              <div className="flex gap-2">
+                <div className="w-3 h-3 rounded-none bg-[#ff3366] opacity-80"></div>
+                <div className="w-3 h-3 rounded-none bg-[#ffaa00] opacity-80"></div>
+                <div className="w-3 h-3 rounded-none bg-[#00ff88] opacity-80"></div>
+              </div>
+            </div>
+
+            {/* Header row */}
+            <div className="px-6 py-6 flex justify-between items-end border-b border-[#2a2a3a]">
+              <div>
+                <h2 className="font-bold text-[#e0e0e0] text-lg flex items-center gap-2">
+                  <span className="text-[#00ff88]">{'>'}</span> Flights
+                </h2>
+                <p className="text-xs mt-1 text-[#6b7280]">
+                  {flights.length} active logs
+                </p>
+              </div>
+              <div className="flex flex-col items-end gap-3">
+                {message && (
+                  <span className="text-xs px-3 py-1 font-bold bg-[#00ff88]/10 text-[#00ff88] border border-[#00ff88]/50 shadow-[0_0_10px_rgba(0,255,136,0.2)]">
+                    ✓ {message}
+                  </span>
+                )}
+                {isAdmin && (
+                  <button
+                    onClick={() => { setShowAdd(v => !v); resetForm(); }}
+                    className="px-6 py-2 text-xs font-bold uppercase tracking-widest text-[#0a0a0f] bg-[#00ff88] hover:brightness-110 hover:shadow-[0_0_15px_rgba(0,255,136,0.6)] transition-all"
+                    style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
+                  >
+                    {showAdd ? "✕ Cancel" : "+ Schedule Flight"}
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Add form */}
+            <div className="px-6 pt-6 bg-[#0a0a0f]">
+              {showAdd && (
+                <AddFlightPanel
+                  form={form}
+                  setForm={setForm}
+                  onSave={handleAdd}
+                  onCancel={() => { setShowAdd(false); resetForm(); }}
+                  planes={planes}
+                />
               )}
-              {isAdmin && (
-                <button
-                  onClick={() => { setShowAdd(v => !v); resetForm(); }}
-                  className="px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all hover:scale-105"
-                  style={{ background: "linear-gradient(135deg, #065f46, #34d399)", boxShadow: "0 4px 15px rgba(52,211,153,0.25)" }}
-                >
-                  {showAdd ? "✕ Cancel" : "+ Add Flight"}
-                </button>
-              )}
+            </div>
+
+            {/* Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-[#0a0a0f]">
+                    {["Route", "Model", "Distance", "Status"].map((h, i) => (
+                      <th
+                        key={i}
+                        className="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#6b7280] border-b border-[#2a2a3a]"
+                      >
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {flights.map((f, i) => (
+                    <tr
+                      key={i}
+                      className="font-mono text-sm transition-all duration-200 group"
+                      style={{
+                        borderBottom: "1px solid #2a2a3a",
+                        background: "#0a0a0f",
+                        opacity: visible ? 1 : 0,
+                        transform: visible ? "translateX(0)" : "translateX(-10px)",
+                        transition: `all 0.4s ease ${i * 0.05 + 0.1}s`,
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = "#12121a";
+                        e.currentTarget.style.boxShadow = "inset 2px 0 0 #00ff88";
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = "#0a0a0f";
+                        e.currentTarget.style.boxShadow = "none";
+                      }}
+                    >
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <span className="font-bold text-[#e0e0e0] group-hover:text-[#00ff88] transition-colors">{f.airport}</span>
+                          <span className="text-[#6b7280] font-bold">→</span>
+                          <span className="font-bold text-[#e0e0e0] group-hover:text-[#00ff88] transition-colors">{f.destination}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-[#6b7280] font-bold">{f.modelno}</td>
+                      <td className="px-6 py-4 text-[#e0e0e0]">{f.distance} km</td>
+                      <td className="px-6 py-4"><StatusBadge status={f.status} /></td>
+                    </tr>
+                  ))}
+                  {flights.length === 0 && (
+                    <tr>
+                      <td colSpan="4" className="px-6 py-20 text-center border-b border-[#2a2a3a]">
+                        <p className="text-[#6b7280] text-sm">No flights scheduled for <span className="text-[#e0e0e0] font-bold">{companyName}</span>.</p>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
 
-          {/* Add form */}
-          {showAdd && (
-            <div className="px-6 pt-5">
-              <AddFlightPanel
-                form={form}
-                setForm={setForm}
-                onSave={handleAdd}
-                onCancel={() => { setShowAdd(false); resetForm(); }}
-                planes={planes}
-              />
-            </div>
-          )}
-
-          {/* Table */}
-          <table className="w-full text-left">
-            <thead>
-              <tr style={{ background: "rgba(255,255,255,0.02)" }}>
-                {["Route", "Model", "Distance", "Status"].map((h, i) => (
-                  <th
-                    key={i}
-                    className="px-6 py-3 text-xs font-bold uppercase tracking-widest"
-                    style={{ color: "rgba(255,255,255,0.2)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {flights.map((f, i) => (
-                <tr
-                  key={i}
-                  style={{
-                    borderBottom: "1px solid rgba(255,255,255,0.04)",
-                    opacity: visible ? 1 : 0,
-                    transform: visible ? "translateX(0)" : "translateX(-10px)",
-                    transition: `all 0.4s ease ${i * 0.05 + 0.3}s`,
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.background = "rgba(52,211,153,0.03)"}
-                  onMouseLeave={e => e.currentTarget.style.background = "transparent"}
-                >
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-white text-sm">{f.airport}</span>
-                      <span style={{ color: "rgba(255,255,255,0.25)" }}>→</span>
-                      <span className="font-semibold text-white text-sm">{f.destination}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>{f.modelno}</td>
-                  <td className="px-6 py-4 text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>{f.distance} km</td>
-                  <td className="px-6 py-4"><StatusBadge status={f.status} /></td>
-                </tr>
-              ))}
-              {flights.length === 0 && (
-                <tr>
-                  <td colSpan="4" className="px-6 py-20 text-center text-sm" style={{ color: "rgba(255,255,255,0.2)" }}>
-                    No flights scheduled for {companyName}.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+          {/* Info note */}
+          <div className="mt-6 flex justify-center">
+            <p className="text-[10px] uppercase tracking-widest text-[#6b7280] border border-[#2a2a3a] bg-[#12121a] px-4 py-2" style={{ clipPath: "polygon(0 6px, 6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%)" }}>
+              Update or cancel flights via the <span className="text-[#00d4ff] font-bold cursor-pointer" onClick={() => navigate(`/companies/${id}/records`, { state: { companyName } })}>Records</span> module.
+            </p>
+          </div>
         </div>
-
-        {/* Info note for non-admins / general */}
-        <p className="mt-4 text-xs text-center" style={{ color: "rgba(255,255,255,0.15)" }}>
-          To update or cancel a flight, go to the <span style={{ color: "#4d8ef0" }}>Records</span> page for this airline.
-        </p>
       </div>
-    </div>
+    </>
   );
 }
