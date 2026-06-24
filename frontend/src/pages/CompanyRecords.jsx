@@ -139,23 +139,6 @@ export default function CompanyRecords() {
       .catch(() => setRecords([]));
   };
 
-  {/* Interactive Logo Area for the Navbar */}
-<div 
-  className="flex items-center gap-4 cursor-pointer group"
-  onClick={() => navigate("/dashboard")}>
-  <div className="w-10 h-10 border border-[#00ff88] p-1 shadow-[0_0_10px_rgba(0,255,136,0.2)] relative transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(0,255,136,0.6)] group-hover:border-[#00ff88] group-hover:scale-105"
-       style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}>
-    <img src="/logo.png" alt="AeroNexus" className="w-full h-full object-contain filter drop-shadow-[0_0_5px_#00ff88]" />
-  </div>
-  <div>
-    <p className="font-black text-[#e0e0e0] text-xl uppercase tracking-widest leading-none cyber-glitch transition-colors duration-300 group-hover:text-[#00ff88]" style={{ fontFamily: '"Orbitron", "Share Tech Mono", monospace' }}>
-      Aero<span className="text-[#00ff88]">Nexus</span>
-    </p>
-    <p className="text-[9px] mt-1 text-[#00ff88] tracking-[0.3em] uppercase flex items-center gap-2">
-      CONNECT · INNOVATE · ELEVATE
-    </p>
-  </div>
-</div>
   const resetForm = () => setForm({ airport: "", destination: "", modelno: "", distance: "", fuelConsumed: "", status: "Scheduled" });
 
   const handleAdd = async () => {
@@ -259,13 +242,18 @@ export default function CompanyRecords() {
           <div className="h-1 w-full bg-gradient-to-r from-[#ff00ff] via-[#00d4ff] to-[#00ff88]"></div>
 
           <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 border border-[#00ff88] p-1 shadow-[0_0_10px_rgba(0,255,136,0.2)] relative"
+            
+            {/* Interactive Logo Area for the Navbar */}
+            <div 
+              className="flex items-center gap-4 cursor-pointer group"
+              onClick={() => navigate("/dashboard")}
+            >
+              <div className="w-10 h-10 border border-[#00ff88] p-1 shadow-[0_0_10px_rgba(0,255,136,0.2)] relative transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(0,255,136,0.6)] group-hover:border-[#00ff88] group-hover:scale-105"
                    style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}>
                 <img src="/logo.png" alt="AeroNexus" className="w-full h-full object-contain filter drop-shadow-[0_0_5px_#00ff88]" />
               </div>
               <div>
-                <p className="font-black text-[#e0e0e0] text-xl uppercase tracking-widest leading-none cyber-glitch" style={{ fontFamily: '"Orbitron", "Share Tech Mono", monospace' }}>
+                <p className="font-black text-[#e0e0e0] text-xl uppercase tracking-widest leading-none cyber-glitch transition-colors duration-300 group-hover:text-[#00ff88]" style={{ fontFamily: '"Orbitron", "Share Tech Mono", monospace' }}>
                   Aero<span className="text-[#00ff88]">Nexus</span>
                 </p>
                 <p className="text-[9px] mt-1 text-[#00ff88] tracking-[0.3em] uppercase flex items-center gap-2">
