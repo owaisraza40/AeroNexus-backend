@@ -60,17 +60,15 @@ function StatCard({ label, value, icon, color, loading, delay }) {
             clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)"
           }}
         >
-          {/* Note: In a real app, swap these standard PNGs for SVGs to apply glow filters directly to the shape */}
           <img src={icon} alt={label} className="w-full h-full object-contain filter grayscale group-hover:grayscale-0 transition-all" style={{ filter: `drop-shadow(0 0 4px ${color})` }} />
         </div>
         <div className="flex items-center gap-2 border px-2 py-1" style={{ borderColor: `${color}40`, background: `${color}10` }}>
           <div className="w-2 h-2" style={{ background: color, animation: "pulse 1.5s steps(2, start) infinite" }}></div>
-          <span className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: color }}>SYNC</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: color }}>LIVE</span>
         </div>
       </div>
       <p className="text-5xl font-black mb-1 tabular-nums tracking-tighter" style={{ color: "#e0e0e0", textShadow: `0 0 10px ${color}50` }}>
         {loading ? "—" : count}
-        <span className="text-xl ml-1 opacity-50 font-normal">_</span>
       </p>
       <p className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "#6b7280" }}>{label}</p>
     </div>
@@ -104,7 +102,6 @@ function TableRow({ c, i, isAdmin, navigate, onDelete, onEdit }) {
       }}
     >
       <td className="px-6 py-4 text-[#6b7280]">
-        <span className="text-[10px] mr-2 text-[#00d4ff]">ID.</span>
         {c.id}
       </td>
       <td className="px-6 py-4">
@@ -120,25 +117,25 @@ function TableRow({ c, i, isAdmin, navigate, onDelete, onEdit }) {
             {c.name.charAt(0).toUpperCase()}
           </div>
           <div>
-            <p className="font-bold text-[#e0e0e0] uppercase tracking-wider group-hover:text-[#00d4ff] group-hover:drop-shadow-[0_0_5px_rgba(0,212,255,0.5)] transition-colors">{c.name}</p>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-[#6b7280]">NODE_ALFA</p>
+            <p className="font-bold text-[#e0e0e0] group-hover:text-[#00d4ff] group-hover:drop-shadow-[0_0_5px_rgba(0,212,255,0.5)] transition-colors">{c.name}</p>
+            <p className="text-[10px] tracking-[0.1em] text-[#6b7280]">Airline ID #{c.id}</p>
           </div>
         </div>
       </td>
       <td className="px-6 py-4">
         <span className="text-base font-bold text-[#e0e0e0] mr-2">{c.planes}</span>
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#6b7280]">UNITS</span>
+        <span className="text-[10px] tracking-[0.1em] text-[#6b7280] lowercase">aircraft</span>
       </td>
       <td className="px-6 py-4">
         <span className="text-base font-bold text-[#e0e0e0] mr-2">{c.terminals}</span>
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#6b7280]">NODES</span>
+        <span className="text-[10px] tracking-[0.1em] text-[#6b7280] lowercase">terminals</span>
       </td>
       <td className="px-6 py-4">
         <div className="flex gap-2">
           {[
-            { label: "REC", path: "records", color: "#00d4ff" },
-            { label: "PLN", path: "planes", color: "#ff00ff" },
-            { label: "FLT", path: "flights", color: "#00ff88" },
+            { label: "RECORDS", path: "records", color: "#00d4ff" },
+            { label: "PLANES", path: "planes", color: "#ff00ff" },
+            { label: "FLIGHTS", path: "flights", color: "#00ff88" },
           ].map(btn => (
             <button
               key={btn.path}
@@ -181,7 +178,7 @@ function TableRow({ c, i, isAdmin, navigate, onDelete, onEdit }) {
               className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest transition-all duration-150 text-[#ff3366] border border-[#ff3366]/50 hover:bg-[#ff3366] hover:text-[#0a0a0f] hover:shadow-[0_0_10px_rgba(255,51,102,0.8)]"
               style={{ clipPath: "polygon(0 4px, 4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%)" }}
             >
-              DEL
+              DELETE
             </button>
           </div>
         </td>
@@ -225,7 +222,7 @@ export default function Dashboard() {
     });
     const data = await res.json();
     if (data.success) {
-      setMessage("SYS_MSG: NODE ALLOCATED");
+      setMessage("Company added successfully");
       setShowAdd(false);
       setForm({ name: "", planes: "", terminals: "" });
       fetchCompanies();
@@ -234,7 +231,7 @@ export default function Dashboard() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("WARNING: Confirm purge of selected node? This action is irreversible.")) return;
+    if (!window.confirm("Delete this company?")) return;
     await fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}`, { method: "DELETE" });
     fetchCompanies();
   };
@@ -248,7 +245,7 @@ export default function Dashboard() {
     });
     const data = await res.json();
     if (data.success) {
-      setMessage("SYS_MSG: NODE DATA OVERWRITTEN");
+      setMessage("Company updated successfully");
       setEditCompany(null);
       fetchCompanies();
       setTimeout(() => setMessage(""), 3000);
@@ -263,12 +260,7 @@ export default function Dashboard() {
           0%, 100% { text-shadow: -2px 0 #ff00ff, 2px 0 #00d4ff; }
           50% { text-shadow: 2px 0 #ff00ff, -2px 0 #00d4ff; }
         }
-        @keyframes scanline {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(100vh); }
-        }
         .cyber-glitch { animation: rgbShift 3s infinite alternate; }
-        .cursor-blink { animation: pulse 1s steps(2, start) infinite; }
         .cyber-scanlines::after {
           content: "";
           position: fixed;
@@ -302,7 +294,6 @@ export default function Dashboard() {
             transition: "all 0.3s steps(4)",
           }}
         >
-          {/* Top decorative tech bar */}
           <div className="h-1 w-full bg-gradient-to-r from-[#ff00ff] via-[#00d4ff] to-[#00ff88]"></div>
 
           <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -316,7 +307,7 @@ export default function Dashboard() {
                   Aero<span className="text-[#00ff88]">Nexus</span>
                 </p>
                 <p className="text-[9px] mt-1 text-[#00ff88] tracking-[0.3em] uppercase flex items-center gap-2">
-                  SYS.ONLINE <span className="w-1.5 h-1.5 bg-[#00ff88] block cursor-blink"></span>
+                  CONNECT · INNOVATE · ELEVATE
                 </p>
               </div>
             </div>
@@ -328,8 +319,8 @@ export default function Dashboard() {
                   {user?.username?.charAt(0).toUpperCase()}
                 </div>
                 <div className="leading-tight text-right hidden sm:block">
-                  <p className="text-xs font-bold text-[#e0e0e0] uppercase">{user?.username}</p>
-                  <p className="text-[9px] uppercase tracking-widest text-[#6b7280]">LVL: {user?.type}</p>
+                  <p className="text-xs font-bold text-[#e0e0e0]">{user?.username}</p>
+                  <p className="text-[9px] uppercase tracking-widest text-[#6b7280] capitalize">{user?.type}</p>
                 </div>
               </div>
 
@@ -338,7 +329,7 @@ export default function Dashboard() {
                 className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-[#ff3366] border border-[#ff3366]/50 hover:bg-[#ff3366] hover:text-[#0a0a0f] hover:shadow-[0_0_15px_rgba(255,51,102,0.6)] transition-all"
                 style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
               >
-                DISCONNECT
+                Sign Out
               </button>
             </div>
           </div>
@@ -348,47 +339,44 @@ export default function Dashboard() {
 
           <div className="mb-12 border-l-4 border-[#00ff88] pl-6 relative" style={{ opacity: navVisible ? 1 : 0, transform: navVisible ? "translateY(0)" : "translateY(10px)", transition: "all 0.3s steps(4) 0.2s" }}>
             <div className="absolute -left-[6px] top-0 w-2 h-2 bg-[#00ff88] shadow-[0_0_10px_#00ff88]"></div>
-            <h1 className="text-4xl font-black text-[#e0e0e0] uppercase tracking-tighter mb-2" style={{ fontFamily: '"Orbitron", "Share Tech Mono", monospace' }}>
-              OPS_CENTER // ROOT
+            <h1 className="text-3xl font-bold text-[#e0e0e0] mb-2 font-sans tracking-tight">
+              Flight Operations Center
             </h1>
-            <p className="text-[#6b7280] text-xs uppercase tracking-[0.2em] flex items-center gap-2">
-              <span className="text-[#00ff88]">{'>'}</span> Real-time network mapping & asset control
+            <p className="text-[#6b7280] text-sm flex items-center gap-2">
+              <span className="text-[#00ff88] font-bold">{'>'}</span> Real-time airline management and operations dashboard
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <StatCard label="Registered Nodes" value={companies.length} icon="/airlines.png" color="#00d4ff" loading={loading} delay={100} />
-            <StatCard label="Total Hardware" value={companies.reduce((a, c) => a + (Number(c.planes) || 0), 0)} icon="/aircraft.png" color="#ff00ff" loading={loading} delay={200} />
-            <StatCard label="Active Ports" value={companies.reduce((a, c) => a + (Number(c.terminals) || 0), 0)} icon="/terminals.png" color="#00ff88" loading={loading} delay={300} />
+            <StatCard label="Registered Airlines" value={companies.length} icon="/airlines.png" color="#00d4ff" loading={loading} delay={100} />
+            <StatCard label="Total Aircraft" value={companies.reduce((a, c) => a + (Number(c.planes) || 0), 0)} icon="/aircraft.png" color="#ff00ff" loading={loading} delay={200} />
+            <StatCard label="Active Terminals" value={companies.reduce((a, c) => a + (Number(c.terminals) || 0), 0)} icon="/terminals.png" color="#00ff88" loading={loading} delay={300} />
           </div>
 
-          {/* Table Container - Terminal Aesthetic */}
           <div className="bg-[#12121a] border border-[#2a2a3a] relative" style={{ clipPath: "polygon(0 20px, 20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%)" }}>
             
-            {/* Terminal Header */}
             <div className="bg-[#0a0a0f] border-b border-[#2a2a3a] px-6 py-2 flex justify-between items-center">
               <div className="flex gap-2">
                 <div className="w-3 h-3 rounded-none bg-[#ff3366] opacity-80"></div>
                 <div className="w-3 h-3 rounded-none bg-[#ffaa00] opacity-80"></div>
                 <div className="w-3 h-3 rounded-none bg-[#00ff88] opacity-80"></div>
               </div>
-              <div className="text-[#6b7280] text-[10px] tracking-[0.3em] uppercase">sys.db.query("airlines")</div>
             </div>
 
             <div className="px-6 py-6 flex justify-between items-end border-b border-[#2a2a3a]">
               <div>
-                <h2 className="font-bold text-[#e0e0e0] text-xl uppercase tracking-widest flex items-center gap-2">
-                  <span className="text-[#00ff88]">{'>'}</span> AIRLINE_REGISTRY <span className="w-3 h-5 bg-[#00ff88] inline-block cursor-blink ml-1"></span>
+                <h2 className="font-bold text-[#e0e0e0] text-lg flex items-center gap-2">
+                  <span className="text-[#00ff88]">{'>'}</span> Airlines
                 </h2>
-                <p className="text-[10px] mt-2 text-[#6b7280] uppercase tracking-[0.2em]">
-                  [ {companies.length} ] records indexed in mainframe
+                <p className="text-xs mt-1 text-[#6b7280]">
+                  {companies.length} {companies.length === 1 ? "airline" : "airlines"} registered
                 </p>
               </div>
               
               <div className="flex flex-col items-end gap-3">
                 {message && (
-                  <span className="text-[10px] px-3 py-1 font-bold uppercase tracking-widest bg-[#00ff88]/10 text-[#00ff88] border border-[#00ff88]/50 shadow-[0_0_10px_rgba(0,255,136,0.2)]">
-                    {message}
+                  <span className="text-xs px-3 py-1 font-bold bg-[#00ff88]/10 text-[#00ff88] border border-[#00ff88]/50 shadow-[0_0_10px_rgba(0,255,136,0.2)]">
+                    ✓ {message}
                   </span>
                 )}
                 {isAdmin && (
@@ -397,7 +385,7 @@ export default function Dashboard() {
                     className="px-6 py-2 text-xs font-bold uppercase tracking-widest text-[#0a0a0f] bg-[#00ff88] hover:brightness-110 hover:shadow-[0_0_15px_rgba(0,255,136,0.6)] transition-all"
                     style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
                   >
-                    {showAdd ? "CANCEL_INPUT" : "INITIALIZE_NODE_CREATION"}
+                    {showAdd ? "Cancel" : "+ Add Company"}
                   </button>
                 )}
               </div>
@@ -405,11 +393,11 @@ export default function Dashboard() {
 
             {showAdd && (
               <div className="px-6 py-6 border-b border-[#2a2a3a] bg-[#0a0a0f]">
-                <p className="text-xs font-bold text-[#00ff88] mb-4 uppercase tracking-[0.2em]">INPUT REQUIRED // NEW NODE PARAMS</p>
+                <p className="text-sm font-bold text-[#00ff88] mb-4">New Airline Details</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   {[
-                    { placeholder: "TARGET_IDENTIFIER", key: "name", type: "text" },
-                    { placeholder: "PORT_COUNT_INT", key: "terminals", type: "number" },
+                    { placeholder: "Company Name", key: "name", type: "text" },
+                    { placeholder: "No. of Terminals", key: "terminals", type: "number" },
                   ].map(f => (
                     <div key={f.key} className="relative">
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#00ff88] font-bold">{'>'}</span>
@@ -418,7 +406,7 @@ export default function Dashboard() {
                         placeholder={f.placeholder}
                         value={form[f.key]}
                         onChange={e => setForm({ ...form, [f.key]: e.target.value })}
-                        className="num-input w-full bg-[#12121a] text-[#00ff88] border border-[#2a2a3a] pl-10 pr-4 py-3 text-sm outline-none focus:border-[#00ff88] focus:shadow-[0_0_10px_rgba(0,255,136,0.3)] transition-all placeholder:text-[#6b7280]/50 uppercase"
+                        className="num-input w-full bg-[#12121a] text-[#00ff88] border border-[#2a2a3a] pl-10 pr-4 py-3 text-sm outline-none focus:border-[#00ff88] focus:shadow-[0_0_10px_rgba(0,255,136,0.3)] transition-all placeholder:text-[#6b7280]/50"
                         style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
                       />
                     </div>
@@ -429,7 +417,7 @@ export default function Dashboard() {
                   className="px-8 py-3 text-xs font-bold uppercase tracking-widest text-[#0a0a0f] bg-[#00d4ff] hover:brightness-110 hover:shadow-[0_0_15px_rgba(0,212,255,0.6)] transition-all"
                   style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
                 >
-                  EXECUTE_INSERT
+                  Save Company
                 </button>
               </div>
             )}
@@ -438,7 +426,7 @@ export default function Dashboard() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#0a0a0f]">
-                    {["#_ID", "ENTITY", "ASSETS", "PORTS", "SYS_LINKS", isAdmin && "OVERRIDE"].filter(Boolean).map((h, i) => (
+                    {["#", "Airline", "Aircraft", "Terminals", "Databases", isAdmin && ""].filter(Boolean).map((h, i) => (
                       <th key={i} className="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#6b7280] border-b border-[#2a2a3a]">
                         {h}
                       </th>
@@ -452,8 +440,7 @@ export default function Dashboard() {
                   {!loading && companies.length === 0 && (
                     <tr>
                       <td colSpan="6" className="px-6 py-20 text-center border-b border-[#2a2a3a]">
-                        <p className="text-[#ff3366] font-bold tracking-widest uppercase mb-2 text-lg">ERR_NO_DATA_FOUND</p>
-                        <p className="text-[#6b7280] text-xs uppercase tracking-[0.2em]">Registry is empty. Initialize node creation sequence.</p>
+                        <p className="text-[#6b7280] text-sm">No airlines registered yet. Add one to get started.</p>
                       </td>
                     </tr>
                   )}
@@ -463,7 +450,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Edit Modal / Override Prompt */}
+        {/* Edit Modal */}
         {editCompany && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0a0a0f]/80 backdrop-blur-md">
             <div 
@@ -474,25 +461,25 @@ export default function Dashboard() {
                 
                 <div className="flex items-center gap-3 mb-6 border-b border-[#2a2a3a] pb-4">
                   <div className="w-3 h-3 bg-[#ffaa00] animate-pulse"></div>
-                  <h3 className="text-xl font-bold text-[#ffaa00] uppercase tracking-widest m-0">SYS.OVERRIDE_MODE</h3>
+                  <h3 className="text-xl font-bold text-[#ffaa00] m-0">Edit Company</h3>
                 </div>
                 
-                <p className="text-[#6b7280] text-xs uppercase tracking-[0.2em] mb-6">Modify target hex: <span className="text-[#e0e0e0] font-bold">[{editCompany.name}]</span></p>
+                <p className="text-[#6b7280] text-xs mb-6">Update details for <span className="text-[#e0e0e0] font-bold">{editCompany.name}</span></p>
                 
                 <div className="flex flex-col gap-6 mb-8">
                   {[
-                    { ph: "TARGET_IDENTIFIER", key: "name", type: "text" },
-                    { ph: "PORT_COUNT_INT", key: "terminals", type: "number" },
+                    { ph: "Company Name", key: "name", type: "text" },
+                    { ph: "Number of Terminals", key: "terminals", type: "number" },
                   ].map(f => (
                     <div key={f.key} className="relative">
-                      <label className="text-[#6b7280] text-[10px] font-bold mb-2 block uppercase tracking-[0.2em]">{f.ph}</label>
+                      <label className="text-[#6b7280] text-xs font-bold mb-2 block">{f.ph}</label>
                       <div className="relative">
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ffaa00] font-bold">{'>'}</span>
                         <input
                           type={f.type}
                           value={editForm[f.key]}
                           onChange={e => setEditForm({ ...editForm, [f.key]: e.target.value })}
-                          className="num-input w-full bg-[#12121a] text-[#ffaa00] border border-[#2a2a3a] pl-10 pr-4 py-3 text-sm outline-none focus:border-[#ffaa00] focus:shadow-[0_0_10px_rgba(255,170,0,0.3)] transition-all uppercase"
+                          className="num-input w-full bg-[#12121a] text-[#ffaa00] border border-[#2a2a3a] pl-10 pr-4 py-3 text-sm outline-none focus:border-[#ffaa00] focus:shadow-[0_0_10px_rgba(255,170,0,0.3)] transition-all"
                           style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
                         />
                       </div>
@@ -506,14 +493,14 @@ export default function Dashboard() {
                     className="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-[#0a0a0f] bg-[#ffaa00] hover:brightness-110 hover:shadow-[0_0_15px_rgba(255,170,0,0.6)] transition-all" 
                     style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
                   >
-                    COMMIT_CHANGES
+                    Save Changes
                   </button>
                   <button 
                     onClick={() => setEditCompany(null)} 
                     className="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-[#6b7280] bg-transparent border border-[#2a2a3a] hover:text-[#e0e0e0] hover:border-[#6b7280] transition-all" 
                     style={{ clipPath: "polygon(0 8px, 8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)" }}
                   >
-                    ABORT
+                    Cancel
                   </button>
                 </div>
               </div>
