@@ -312,18 +312,18 @@ export default function Dashboard() {
               style={{ borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(77,142,240,0.03)" }}
             >
               <p className="text-sm font-semibold text-white mb-4">New Airline Details</p>
-              <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="grid grid-cols-3 gap-3 mb-4">
                 {[
-                  { placeholder: "Company Name", key: "name", type: "text" },
-                  { placeholder: "No. of Terminals", key: "terminals", type: "number" },
-                ].map(f => (
+                { placeholder: "Company name", key: "name", type: "text" },
+                { placeholder: "Number of terminals", key: "terminals", type: "number" },
+              ].map(f => (
                   <input
                     key={f.key}
                     type={f.type}
-                    placeholder={f.placeholder}
+                    placeholder={f.ph}
                     value={form[f.key]}
                     onChange={e => setForm({ ...form, [f.key]: e.target.value })}
-                    className="num-input px-4 py-2.5 rounded-xl text-sm text-white outline-none transition-all"
+                    className="px-4 py-2.5 rounded-xl text-sm text-white outline-none transition-all"
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
                     onFocus={e => e.target.style.border = "1px solid rgba(77,142,240,0.5)"}
                     onBlur={e => e.target.style.border = "1px solid rgba(255,255,255,0.08)"}
@@ -388,7 +388,7 @@ export default function Dashboard() {
                       type={f.type}
                       value={editForm[f.key]}
                       onChange={e => setEditForm({ ...editForm, [f.key]: e.target.value })}
-                      className={`w-full px-4 py-2.5 rounded-xl text-sm text-white outline-none${f.type === "number" ? " num-input" : ""}`}
+                      className="w-full px-4 py-2.5 rounded-xl text-sm text-white outline-none"
                       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
                       onFocus={e => e.target.style.border = "1px solid rgba(77,142,240,0.5)"}
                       onBlur={e => e.target.style.border = "1px solid rgba(255,255,255,0.08)"}
@@ -409,14 +409,6 @@ export default function Dashboard() {
         @keyframes pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.4; }
-        }
-        .num-input::-webkit-inner-spin-button,
-        .num-input::-webkit-outer-spin-button {
-          -webkit-appearance: inner-spin-button;
-          opacity: 1;
-          width: 22px;
-          height: 100%;
-          cursor: pointer;
         }
       `}</style>
     </div>
