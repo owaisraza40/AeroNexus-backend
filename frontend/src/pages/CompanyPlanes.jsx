@@ -16,7 +16,6 @@ function FormPanel({ form, setForm, onSave, onCancel, saveLabel }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
         {[
           { ph: "Model No (e.g. A320)", key: "modelNo", type: "text" },
-          { ph: "Serial No", key: "serialNo", type: "text" },
           { ph: "Fuel Capacity (L)", key: "fuelCapacity", type: "number" },
         ].map(f => (
           <div key={f.key} className="relative">
@@ -115,7 +114,7 @@ export default function CompanyPlanes() {
   const [planes, setPlanes] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
-  const [form, setForm] = useState({ modelNo: "", serialNo: "", fuelCapacity: "", status: "Active" });
+  const [form, setForm] = useState({ modelNo: "", fuelCapacity: "", status: "Active" });
   const [message, setMessage] = useState("");
   const [visible, setVisible] = useState(false);
   
@@ -125,10 +124,10 @@ export default function CompanyPlanes() {
   useEffect(() => { fetchPlanes(); setTimeout(() => setVisible(true), 100); }, []);
 
   const fetchPlanes = () => fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/planes`).then(r => r.json()).then(setPlanes);
-  const resetForm = () => setForm({ modelNo: "", serialNo: "", fuelCapacity: "", status: "Active" });
+  const resetForm = () => setForm({ modelNo: "", fuelCapacity: "", status: "Active" });
 
   const handleAdd = async () => {
-    const body = `modelNo=${encodeURIComponent(form.modelNo)}&serialNo=${encodeURIComponent(form.serialNo)}&fuelCapacity=${form.fuelCapacity}&status=${encodeURIComponent(form.status)}`;
+    const body = `modelNo=${encodeURIComponent(form.modelNo)}&fuelCapacity=${form.fuelCapacity}&status=${encodeURIComponent(form.status)}`;
     const res = await fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/planes`, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body });
     const data = await res.json();
     if (data.success) { setMessage("Plane added!"); setShowAdd(false); resetForm(); fetchPlanes(); setTimeout(() => setMessage(""), 2000); }
@@ -136,13 +135,13 @@ export default function CompanyPlanes() {
 
   const handleEdit = (i) => { 
     setEditIndex(i); 
-    setForm({ modelNo: planes[i].modelNo, serialNo: planes[i].serialNo, fuelCapacity: planes[i].fuelCapacity, status: planes[i].status }); 
+    setForm({ modelNo: planes[i].modelNo, fuelCapacity: planes[i].fuelCapacity, status: planes[i].status }); 
     setShowAdd(false); 
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleUpdate = async () => {
-    const body = `modelNo=${encodeURIComponent(form.modelNo)}&serialNo=${encodeURIComponent(form.serialNo)}&fuelCapacity=${form.fuelCapacity}&status=${encodeURIComponent(form.status)}`;
+    const body = `modelNo=${encodeURIComponent(form.modelNo)}&fuelCapacity=${form.fuelCapacity}&status=${encodeURIComponent(form.status)}`;
     const res = await fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/planes/${editIndex}`, { method: "PUT", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body });
     const data = await res.json();
     if (data.success) { setMessage("Plane updated!"); setEditIndex(null); resetForm(); fetchPlanes(); setTimeout(() => setMessage(""), 2000); }
@@ -337,7 +336,7 @@ export default function CompanyPlanes() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#0a0a0f]">
-                    {["Model", "Serial No", "Fuel Capacity", "Status", isAdmin && "Actions"].filter(Boolean).map((h, i) => (
+                    {["Model", "Fuel Capacity", "Status", isAdmin && "Actions"].filter(Boolean).map((h, i) => (
                       <th key={i} className="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#6b7280] border-b border-[#2a2a3a]">
                         {h}
                       </th>
@@ -380,7 +379,6 @@ export default function CompanyPlanes() {
                           <span className="font-bold text-[#e0e0e0] group-hover:text-[#ff00ff] transition-colors">{p.modelNo}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-[#6b7280] font-bold">{p.serialNo}</td>
                       <td className="px-6 py-4 text-[#e0e0e0]">{p.fuelCapacity} L</td>
                       <td className="px-6 py-4"><StatusBadge status={p.status} /></td>
                       

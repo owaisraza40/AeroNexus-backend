@@ -8,7 +8,6 @@ using namespace std;
 PlaneDB::PlaneDB(string fname) : Database(fname){
     setCap(); // Set capacity based on file content
     modelNo = new string[capacity];
-    serialNo = new int[capacity];
     fuelCapacity = new float[capacity];
     status = new string[capacity];
 }
@@ -41,9 +40,6 @@ void PlaneDB::loadData() {
         modelNo[index] = data;
 
         getline(ss, data, ',');
-        serialNo[index] = stoi(data);
-
-        getline(ss, data, ',');
         fuelCapacity[index] = stof(data);
 
         getline(ss, data, ',');
@@ -64,9 +60,9 @@ void PlaneDB::loadData() {
 
 void PlaneDB::displayRecords() {
     cout << "\n========== CURRENT PLANE RECORDS ==========\n";
-    cout << "S.No.\tModel No.\tSerial No.\tFuel Capacity\tStatus" << endl;
+    cout << "S.No.\tModel No.\tFuel Capacity\tStatus" << endl;
     for (int i = 0; i < pointer; i++) {
-        cout << (i + 1) << "\t" << modelNo[i] << "\t" << serialNo[i] << "\t" << fuelCapacity[i] << "\t" << status[i] << endl;
+        cout << (i + 1) << "\t" << modelNo[i] << "\t" << fuelCapacity[i] << "\t" << status[i] << endl;
     }
 }
 
@@ -77,8 +73,6 @@ void PlaneDB::addRecord() {
     }
     cout << "Enter Plane Model Number: ";
     getline(cin, modelNo[pointer]);
-    cout << "Enter Plane Serial Number: ";
-    cin >> serialNo[pointer];
     cout << "Enter Plane Fuel Capacity: ";
     cin >> fuelCapacity[pointer];
     cin.ignore(); // Clear the input buffer
@@ -108,7 +102,6 @@ void PlaneDB::saveData() {
     }
     for (int i = 0; i < pointer; i++) {
         file << modelNo[i] << ","
-             << serialNo[i] << ","
              << fuelCapacity[i] << ","
              << status[i] << endl;
     }
@@ -126,8 +119,6 @@ void PlaneDB::updateRecord(int index) {
     }
     cout << "Enter new Plane Model Number: ";
     getline(cin, modelNo[index]);
-    cout << "Enter new Plane Serial Number: ";
-    cin >> serialNo[index];
     cout << "Enter new Plane Fuel Capacity: ";
     cin >> fuelCapacity[index];
     cin.ignore(); // Clear the input buffer
@@ -157,7 +148,6 @@ void PlaneDB::deleteRecord(int index) {
     }
     for(int i = index; i < pointer - 1; i++) {
         modelNo[i] = modelNo[i + 1];
-        serialNo[i] = serialNo[i + 1];
         fuelCapacity[i] = fuelCapacity[i + 1];
         status[i] = status[i + 1];
     }

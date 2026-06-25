@@ -1,65 +1,65 @@
-Karachi,Tokyo,A380,2488,51004,Completed
-Karachi,New York,B777,2847,34164,Completed
-Dubai,Hong Kong,A350,4180,37620,Completed
-Istanbul,Toronto,B787,4370,37145,Completed
-Karachi,Hong Kong,A380,2604,53382,Completed
-Istanbul,Dubai,B777,2669,0,Cancelled
-Istanbul,London,A350,2134,19206,Completed
-Istanbul,Tokyo,B787,1435,12198,Completed
-Toronto,New York,A380,3202,65641,Completed
-Istanbul,New York,B777,1335,16020,Completed
-Lahore,Sydney,A350,3579,32211,Completed
-Frankfurt,Lahore,B787,2183,0,Cancelled
-Dubai,Lahore,A380,891,18266,Completed
-Singapore,Hong Kong,B777,1463,17556,Completed
-Hong Kong,Toronto,A350,793,7137,Completed
-Frankfurt,Lahore,B787,3471,29504,Completed
-Singapore,New York,A380,1694,34727,Completed
-New York,Lahore,B777,3988,0,Cancelled
-Dubai,Karachi,A350,3934,35406,Completed
-Sydney,Dubai,B787,896,7616,Completed
-Toronto,Frankfurt,A380,3642,74661,Completed
-Istanbul,New York,B777,1937,23244,Completed
-New York,Hong Kong,A350,3058,27522,Completed
-Sydney,Lahore,B787,2828,0,Cancelled
-Karachi,New York,A380,2237,45859,Completed
-Lahore,London,B777,3345,40140,Completed
-Dubai,Paris,A350,1894,17046,Completed
-Karachi,Frankfurt,B787,2392,20332,Completed
-New York,Frankfurt,A380,1345,27573,Completed
-Frankfurt,London,B777,4387,0,Cancelled
-Hong Kong,London,A350,3450,31050,Completed
-Sydney,Hong Kong,B787,468,3978,Completed
-Lahore,Istanbul,A380,4113,84317,Completed
-Sydney,Lahore,B777,2215,26580,Completed
-New York,Istanbul,A350,1414,12726,Completed
-Lahore,New York,B787,4321,0,Cancelled
-Tokyo,Dubai,A380,1586,32513,Completed
-Singapore,Frankfurt,B777,3559,42708,Completed
-Paris,Sydney,A350,4035,36315,Completed
-New York,Toronto,B787,1450,12325,Completed
-Frankfurt,New York,A380,1804,36982,Completed
-Sydney,Dubai,B777,3467,0,Cancelled
-Singapore,Sydney,A350,1513,13617,Completed
-Toronto,Paris,B787,2646,22491,Completed
-Karachi,Frankfurt,A380,1665,34133,Completed
-Singapore,Istanbul,B777,1098,13176,Completed
-Hong Kong,Singapore,A350,4233,38097,Completed
-Dubai,Frankfurt,B787,3917,0,Cancelled
-Sydney,Lahore,A380,1443,29582,Completed
-Lahore,New York,B777,3620,43440,Completed
-New York,Frankfurt,A350,4335,39015,Completed
-Paris,London,B787,3532,30022,Completed
-Istanbul,London,A380,2207,45244,Completed
-New York,Karachi,B777,4335,0,Cancelled
-Hong Kong,Toronto,A350,3159,28431,Completed
-Hong Kong,Frankfurt,B787,2278,19363,Completed
-Singapore,Hong Kong,A380,891,18266,Completed
-Toronto,Dubai,B777,1778,21336,Completed
-London,Dubai,A350,975,8775,Completed
-New York,Frankfurt,B787,2584,0,Cancelled
-Lahore,Toronto,A380,2498,51209,Completed
-Frankfurt,Tokyo,B777,4061,48732,Completed
-Istanbul,New York,A350,4346,39114,Completed
-Istanbul,Sydney,B787,1036,8806,Completed
-Dubai,Frankfurt,A380,4196,86018,Completed
+Lahore,Istanbul,A380,4044,82902,Completed
+Karachi,London,B777,1061,12732,Completed
+London,Toronto,A350,718,6462,Completed
+Tokyo,Frankfurt,B787,3720,31620,Completed
+Sydney,Tokyo,A380,2672,54776,Completed
+Hong Kong,Karachi,B777,1358,0,Cancelled
+Dubai,Singapore,A350,470,4230,Completed
+Tokyo,New York,B787,3668,31178,Completed
+New York,Istanbul,A380,2179,44670,Completed
+New York,Hong Kong,B777,958,11496,Completed
+London,Sydney,A350,3174,28566,Completed
+Frankfurt,New York,B787,1607,0,Cancelled
+Singapore,Sydney,A380,1346,27593,Completed
+Toronto,New York,B777,2132,25584,Completed
+Sydney,Dubai,A350,1310,11790,Completed
+Tokyo,Karachi,B787,459,3902,Completed
+New York,Dubai,A380,2554,52357,Completed
+Lahore,Tokyo,B777,1070,0,Cancelled
+Tokyo,New York,A350,724,6516,Completed
+Tokyo,Lahore,B787,3583,30456,Completed
+Toronto,Sydney,A380,4091,83866,Completed
+Karachi,Paris,B777,455,5460,Completed
+London,Istanbul,A350,1261,11349,Completed
+Singapore,London,B787,1971,0,Cancelled
+Singapore,Toronto,A380,3292,67486,Completed
+Lahore,Sydney,B777,3254,39048,Completed
+Lahore,Tokyo,A350,3357,30213,Completed
+New York,Frankfurt,B787,2791,23724,Completed
+Tokyo,Karachi,A380,2036,41738,Completed
+Paris,Singapore,B777,3382,0,Cancelled
+Dubai,Hong Kong,A350,960,8640,Completed
+Karachi,London,B787,880,7480,Completed
+Lahore,Toronto,A380,1136,23288,Completed
+Toronto,New York,B777,3346,40152,Completed
+Tokyo,Dubai,A350,4330,38970,Completed
+Istanbul,London,B787,2302,0,Cancelled
+Karachi,Toronto,A380,3730,76465,Completed
+Singapore,Paris,B777,1762,21144,Completed
+Frankfurt,Sydney,A350,896,8064,Completed
+Karachi,Dubai,B787,2915,24778,Completed
+Istanbul,London,A380,3620,74210,Completed
+Singapore,Paris,B777,2610,0,Cancelled
+London,New York,A350,2190,19710,Completed
+New York,Lahore,B787,577,4905,Completed
+Frankfurt,Hong Kong,A380,3428,70274,Completed
+Tokyo,Toronto,B777,4181,50172,Completed
+Frankfurt,Sydney,A350,3132,28188,Completed
+London,Istanbul,B787,2289,0,Cancelled
+London,Karachi,A380,1831,37536,Completed
+Karachi,Hong Kong,B777,1002,12024,Completed
+Hong Kong,Istanbul,A350,2171,19539,Completed
+Singapore,Paris,B787,4103,34876,Completed
+Hong Kong,New York,A380,1702,34891,Completed
+Sydney,London,B777,1676,0,Cancelled
+Istanbul,Dubai,A350,3088,27792,Completed
+Hong Kong,Dubai,B787,3626,30821,Completed
+Toronto,Dubai,A380,1769,36265,Completed
+New York,Singapore,B777,3676,44112,Completed
+Paris,Frankfurt,A350,807,7263,Completed
+London,Paris,B787,871,0,Cancelled
+Toronto,Sydney,A380,1029,21095,Completed
+Tokyo,Dubai,B777,3556,42672,Completed
+Paris,Sydney,A350,471,4239,Completed
+London,Tokyo,B787,4183,35556,Completed
+Singapore,Toronto,A380,1504,30832,Completed

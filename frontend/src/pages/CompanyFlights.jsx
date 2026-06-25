@@ -16,7 +16,7 @@ function PlaneSearchSelect({ planes, value, onChange }) {
   }, []);
 
   const filtered = planes.filter(p =>
-    `${p.modelNo} ${p.serialNo}`.toLowerCase().includes(query.toLowerCase())
+    `${p.modelNo}`.toLowerCase().includes(query.toLowerCase())
   );
 
   const selected = planes.find(p => p.modelNo === value);
@@ -40,7 +40,7 @@ function PlaneSearchSelect({ planes, value, onChange }) {
             {planes.length === 0
               ? "SYS.ERR: NO_ACTIVE_UNITS"
               : selected
-                ? `${selected.modelNo} // ${selected.serialNo}`
+                ? `${selected.modelNo}`
                 : "AWAITING_AIRCRAFT_SELECTION..."}
           </span>
           <span className="text-[#00ff88] text-xs">▼</span>
@@ -58,7 +58,7 @@ function PlaneSearchSelect({ planes, value, onChange }) {
             <input
               autoFocus
               type="text"
-              placeholder="QUERY_MODEL_OR_SERIAL..."
+              placeholder="QUERY_MODEL..."
               value={query}
               onChange={e => setQuery(e.target.value)}
               className="w-full bg-[#12121a] text-[#00ff88] border border-[#2a2a3a] pl-8 pr-3 py-2 text-xs uppercase outline-none focus:border-[#00ff88]"
@@ -73,10 +73,10 @@ function PlaneSearchSelect({ planes, value, onChange }) {
                 NULL_RESULT
               </p>
             ) : (
-              filtered.map(p => (
+              filtered.map((p, idx) => (
                 <button
                   type="button"
-                  key={p.serialNo}
+                  key={idx}
                   onClick={() => { onChange(p.modelNo); setOpen(false); setQuery(""); }}
                   className="w-full text-left px-4 py-3 text-xs uppercase tracking-widest transition-all border-l-2 border-transparent hover:border-[#00ff88] group flex justify-between items-center"
                   style={{
@@ -88,7 +88,6 @@ function PlaneSearchSelect({ planes, value, onChange }) {
                 >
                   <div>
                     <span className="font-bold">{p.modelNo}</span>
-                    <span className="text-[#6b7280] group-hover:text-[#00ff88]/70"> // {p.serialNo}</span>
                   </div>
                   <span className="px-1.5 py-0.5 text-[9px] font-bold bg-[#00ff88]/10 text-[#00ff88] border border-[#00ff88]/50 shadow-[0_0_5px_rgba(0,255,136,0.2)]">
                     ACTIVE

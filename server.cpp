@@ -127,11 +127,10 @@ int main() {
             while (getline(planeFile, planeLine)) {
                 if (planeLine.empty()) continue;
                 stringstream ps(planeLine);
-                string modelNo, serialNo, fuelCapacity;
+                string modelNo, fuelCapacity;
                 getline(ps, modelNo, ',');
-                getline(ps, serialNo, ',');
                 getline(ps, fuelCapacity, ',');
-                if (!modelNo.empty() && !serialNo.empty() && !fuelCapacity.empty())
+                if (!modelNo.empty() && !fuelCapacity.empty())
                     actualPlanes++;
             }
             planeFile.close();
@@ -309,14 +308,13 @@ int main() {
         while (getline(file, line)) {
             if (line.empty()) continue;
             stringstream ss(line);
-            string modelNo, serialNo, fuelCapacity, status;
+            string modelNo, fuelCapacity, status;
             getline(ss, modelNo, ',');
-            getline(ss, serialNo, ',');
             getline(ss, fuelCapacity, ',');
             getline(ss, status, ',');
-            if (modelNo.empty() || serialNo.empty() || fuelCapacity.empty()) continue;
+            if (modelNo.empty() || fuelCapacity.empty()) continue;
             if (!first) json += ",";
-            json += "{\"modelNo\":\"" + modelNo + "\",\"serialNo\":\"" + serialNo + "\",\"fuelCapacity\":" + fuelCapacity + ",\"status\":\"" + status + "\"}";
+            json += "{\"modelNo\":\"" + modelNo + "\",\"fuelCapacity\":" + fuelCapacity + ",\"status\":\"" + status + "\"}";
             first = false;
         }
         json += "]";
@@ -327,11 +325,10 @@ int main() {
         setCORS(res);
         string compName = getCompanyName(stoi(req.matches[1]));
         string modelNo = parse(req.body, "modelNo");
-        string serialNo = parse(req.body, "serialNo");
         string fuelCapacity = parse(req.body, "fuelCapacity");
         string status = parse(req.body, "status");
         ofstream file("Data_Dependancy/Company_Planes/" + compName + "_planes.csv", ios::app);
-        file << modelNo << "," << serialNo << "," << fuelCapacity << "," << status << endl;
+        file << modelNo << "," << fuelCapacity << "," << status << endl;
         file.close();
         res.set_content("{\"success\":true}", "application/json");
     });
@@ -378,7 +375,6 @@ int main() {
         string compName = getCompanyName(stoi(req.matches[1]));
         int index = stoi(req.matches[2]);
         string modelNo = parse(req.body, "modelNo");
-        string serialNo = parse(req.body, "serialNo");
         string fuelCapacity = parse(req.body, "fuelCapacity");
         string status = parse(req.body, "status");
         string path = "Data_Dependancy/Company_Planes/" + compName + "_planes.csv";
@@ -389,7 +385,7 @@ int main() {
         while (getline(inFile, line)) {
             if (line.empty()) continue;
             if (idx == index)
-                lines.push_back(modelNo + "," + serialNo + "," + fuelCapacity + "," + status);
+                lines.push_back(modelNo + "," + fuelCapacity + "," + status);
             else
                 lines.push_back(line);
             idx++;

@@ -8,7 +8,6 @@ using namespace std;
 class PlaneDB : public Database{
     private:
         string* modelNo;       // Plane model number/name
-        int* serialNo;         // Plane serial number
         float* fuelCapacity;   // Plane fuel capacity
         string* status;          // true = available, false = unavailable/busy
 
