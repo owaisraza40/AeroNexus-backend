@@ -134,7 +134,12 @@ export default function CompanyPlanes() {
     if (data.success) { setMessage("Plane added!"); setShowAdd(false); resetForm(); fetchPlanes(); setTimeout(() => setMessage(""), 2000); }
   };
 
-  const handleEdit = (i) => { setEditIndex(i); setForm({ modelNo: planes[i].modelNo, serialNo: planes[i].serialNo, fuelCapacity: planes[i].fuelCapacity, status: planes[i].status }); setShowAdd(false); };
+  const handleEdit = (i) => { 
+    setEditIndex(i); 
+    setForm({ modelNo: planes[i].modelNo, serialNo: planes[i].serialNo, fuelCapacity: planes[i].fuelCapacity, status: planes[i].status }); 
+    setShowAdd(false); 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleUpdate = async () => {
     const body = `modelNo=${encodeURIComponent(form.modelNo)}&serialNo=${encodeURIComponent(form.serialNo)}&fuelCapacity=${form.fuelCapacity}&status=${encodeURIComponent(form.status)}`;

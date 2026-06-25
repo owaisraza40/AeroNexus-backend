@@ -1,65 +1,65 @@
-Dubai,Singapore,A380,3844,Scheduled
-Hong Kong,Dubai,B777,1200,Scheduled
-London,Paris,A350,4228,Scheduled
-Sydney,Dubai,B787,463,Scheduled
-Toronto,Tokyo,A380,3902,Active
-Karachi,Lahore,B777,3118,Delayed
-Paris,Frankfurt,A350,3131,Scheduled
-London,Istanbul,B787,1106,Scheduled
-Karachi,Toronto,A380,617,Scheduled
-London,Singapore,B777,1955,Scheduled
-Sydney,Dubai,A350,1804,Active
-Dubai,Sydney,B787,3606,Delayed
-Frankfurt,Istanbul,A380,678,Scheduled
-Paris,Toronto,B777,1530,Scheduled
-Frankfurt,Karachi,A350,1220,Scheduled
-Lahore,Dubai,B787,1739,Scheduled
-Hong Kong,New York,A380,826,Active
-Istanbul,Lahore,B777,3056,Delayed
-New York,Tokyo,A350,3261,Scheduled
-Toronto,Sydney,B787,674,Scheduled
-Frankfurt,Toronto,A380,4067,Scheduled
-Dubai,Lahore,B777,3363,Scheduled
-Hong Kong,New York,A350,604,Active
-Karachi,Paris,B787,1296,Delayed
-Frankfurt,Sydney,A380,4010,Scheduled
-Toronto,Frankfurt,B777,1895,Scheduled
-Singapore,London,A350,3612,Scheduled
-New York,Dubai,B787,3630,Scheduled
-Karachi,New York,A380,4024,Active
-Singapore,Lahore,B777,2754,Delayed
-Toronto,Sydney,A350,3169,Scheduled
-Frankfurt,Dubai,B787,4164,Scheduled
-Sydney,Singapore,A380,1765,Scheduled
-Istanbul,Karachi,B777,2936,Scheduled
-Karachi,Hong Kong,A350,3175,Active
-London,Frankfurt,B787,2944,Delayed
-Paris,Dubai,A380,1947,Scheduled
-Singapore,Istanbul,B777,776,Scheduled
-Frankfurt,New York,A350,2191,Scheduled
-Lahore,Paris,B787,4099,Scheduled
-Lahore,Sydney,A380,2937,Active
-Frankfurt,Dubai,B777,1216,Delayed
-Karachi,Frankfurt,A350,4045,Scheduled
-Istanbul,Karachi,B787,2943,Scheduled
-Paris,Singapore,A380,1663,Scheduled
-Hong Kong,Sydney,B777,1820,Scheduled
-London,Tokyo,A350,2291,Active
-Tokyo,Lahore,B787,741,Delayed
-Toronto,London,A380,3826,Scheduled
-Frankfurt,Hong Kong,B777,3195,Scheduled
-Frankfurt,Tokyo,A350,2487,Scheduled
-Hong Kong,Paris,B787,3827,Scheduled
-Tokyo,Karachi,A380,545,Active
-Tokyo,Toronto,B777,499,Delayed
-Hong Kong,New York,A350,1001,Scheduled
-Sydney,Frankfurt,B787,4213,Scheduled
-London,Frankfurt,A380,4347,Scheduled
-Toronto,Paris,B777,550,Scheduled
-Istanbul,Frankfurt,A350,2669,Active
-Dubai,Frankfurt,B787,1274,Delayed
-Lahore,London,A380,4190,Scheduled
-Karachi,Tokyo,B777,2162,Scheduled
-Tokyo,Hong Kong,A350,689,Scheduled
-Tokyo,Singapore,B787,1782,Scheduled
-Paris,Sydney,A380,696,Active
+New York,Lahore,A380,974,Scheduled
+Karachi,Dubai,B777,3528,Scheduled
+London,Paris,A350,2049,Scheduled
+New York,Singapore,B787,485,Scheduled
+Tokyo,Dubai,A380,4068,Completed
+Lahore,Sydney,B777,1327,Cancelled
+Frankfurt,Hong Kong,A350,2122,Scheduled
+Karachi,Tokyo,B787,4095,Scheduled
+Hong Kong,Tokyo,A380,1955,Scheduled
+Tokyo,Karachi,B777,1579,Scheduled
+Lahore,Dubai,A350,2942,Completed
+Karachi,New York,B787,1172,Cancelled
+Frankfurt,Hong Kong,A380,2679,Scheduled
+Lahore,Frankfurt,B777,4151,Scheduled
+Frankfurt,Lahore,A350,1995,Scheduled
+Istanbul,Paris,B787,1521,Scheduled
+Tokyo,Sydney,A380,2167,Completed
+Lahore,Tokyo,B777,1940,Cancelled
+London,Karachi,A350,3002,Scheduled
+Sydney,Singapore,B787,602,Scheduled
+New York,Paris,A380,1536,Scheduled
+New York,Frankfurt,B777,3941,Scheduled
+Toronto,Istanbul,A350,2719,Completed
+Sydney,Karachi,B787,3830,Cancelled
+Tokyo,Dubai,A380,470,Scheduled
+Paris,Sydney,B777,2640,Scheduled
+Tokyo,Istanbul,A350,3674,Scheduled
+London,Singapore,B787,3748,Scheduled
+Dubai,New York,A380,563,Completed
+Dubai,London,B777,1352,Cancelled
+London,Dubai,A350,1686,Scheduled
+Istanbul,Sydney,B787,1212,Scheduled
+Tokyo,Toronto,A380,2776,Scheduled
+Singapore,London,B777,2608,Scheduled
+Dubai,Sydney,A350,921,Completed
+Lahore,Dubai,B787,1155,Cancelled
+Dubai,Istanbul,A380,1730,Scheduled
+Hong Kong,Frankfurt,B777,2192,Scheduled
+Singapore,Istanbul,A350,4215,Scheduled
+Lahore,Toronto,B787,1959,Scheduled
+Paris,Singapore,A380,1999,Completed
+Toronto,Paris,B777,602,Cancelled
+Tokyo,Toronto,A350,3856,Scheduled
+Paris,Istanbul,B787,1630,Scheduled
+New York,Frankfurt,A380,3765,Scheduled
+Sydney,Dubai,B777,1794,Scheduled
+Istanbul,Lahore,A350,1017,Completed
+London,Paris,B787,2561,Cancelled
+Sydney,London,A380,741,Scheduled
+Lahore,New York,B777,3017,Scheduled
+Karachi,London,A350,3512,Scheduled
+Karachi,Hong Kong,B787,2029,Scheduled
+Frankfurt,Paris,A380,3200,Completed
+London,Lahore,B777,3012,Cancelled
+Dubai,Frankfurt,A350,3796,Scheduled
+Dubai,Sydney,B787,965,Scheduled
+Paris,Dubai,A380,4338,Scheduled
+Lahore,Toronto,B777,3654,Scheduled
+Dubai,Toronto,A350,2794,Completed
+Istanbul,Lahore,B787,1564,Cancelled
+London,Sydney,A380,987,Scheduled
+Hong Kong,Karachi,B777,463,Scheduled
+London,Paris,A350,4305,Scheduled
+Karachi,Sydney,B787,1651,Scheduled
+Karachi,Hong Kong,A380,4262,Completed

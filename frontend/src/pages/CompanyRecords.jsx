@@ -171,6 +171,7 @@ export default function CompanyRecords() {
       status: records[index].status || "Scheduled" 
     });
     setShowAdd(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleUpdate = async () => {
