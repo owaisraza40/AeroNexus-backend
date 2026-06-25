@@ -1,3 +1,65 @@
-Lahore,Sharjah,A320,2100,3200,Completed
-Karachi,Islamabad,A321,1100,2100,Completed
-Islamabad,Dubai,A320,2200,3400,Cancelled
+Lahore,Abu Dhabi,A320,3029,14539,Completed
+Multan,Quetta,A321,2079,11227,Completed
+Doha,Sharjah,A330,2978,29184,Completed
+Muscat,Karachi,A320,4041,19397,Completed
+Multan,Quetta,A321,403,2176,Completed
+Karachi,Islamabad,A330,866,0,Cancelled
+Peshawar,Karachi,A320,2305,11064,Completed
+Islamabad,Abu Dhabi,A321,2102,11351,Completed
+Sharjah,Muscat,A330,514,5037,Completed
+Doha,Muscat,A320,1182,5674,Completed
+Muscat,Dubai,A321,1808,9763,Completed
+Peshawar,Lahore,A330,3644,0,Cancelled
+Doha,Lahore,A320,1728,8294,Completed
+Muscat,Abu Dhabi,A321,2787,15050,Completed
+Sharjah,Lahore,A330,536,5253,Completed
+Peshawar,Muscat,A320,3180,15264,Completed
+Muscat,Peshawar,A321,1033,5578,Completed
+Abu Dhabi,Sharjah,A330,2979,0,Cancelled
+Islamabad,Doha,A320,2808,13478,Completed
+Quetta,Karachi,A321,2937,15860,Completed
+Peshawar,Abu Dhabi,A330,432,4234,Completed
+Sharjah,Dubai,A320,872,4186,Completed
+Islamabad,Dubai,A321,1225,6615,Completed
+Doha,Sharjah,A330,2325,0,Cancelled
+Karachi,Dubai,A320,1169,5611,Completed
+Abu Dhabi,Lahore,A321,2582,13943,Completed
+Sharjah,Dubai,A330,695,6811,Completed
+Sharjah,Peshawar,A320,642,3082,Completed
+Multan,Quetta,A321,876,4730,Completed
+Karachi,Dubai,A330,2530,0,Cancelled
+Quetta,Multan,A320,1233,5918,Completed
+Quetta,Dubai,A321,725,3915,Completed
+Peshawar,Dubai,A330,2906,28479,Completed
+Islamabad,Multan,A320,4078,19574,Completed
+Sharjah,Lahore,A321,848,4579,Completed
+Multan,Muscat,A330,2090,0,Cancelled
+Abu Dhabi,Peshawar,A320,2454,11779,Completed
+Dubai,Karachi,A321,2800,15120,Completed
+Quetta,Islamabad,A330,634,6213,Completed
+Abu Dhabi,Quetta,A320,3646,17501,Completed
+Multan,Quetta,A321,2702,14591,Completed
+Islamabad,Abu Dhabi,A330,3277,0,Cancelled
+Abu Dhabi,Lahore,A320,3349,16075,Completed
+Dubai,Quetta,A321,4236,22874,Completed
+Abu Dhabi,Sharjah,A330,2004,19639,Completed
+Islamabad,Karachi,A320,1647,7906,Completed
+Peshawar,Karachi,A321,2941,15881,Completed
+Peshawar,Dubai,A330,625,0,Cancelled
+Lahore,Dubai,A320,1886,9053,Completed
+Sharjah,Karachi,A321,2241,12101,Completed
+Multan,Dubai,A330,2040,19992,Completed
+Doha,Peshawar,A320,1383,6638,Completed
+Quetta,Islamabad,A321,437,2360,Completed
+Lahore,Dubai,A330,577,0,Cancelled
+Multan,Lahore,A320,2265,10872,Completed
+Muscat,Multan,A321,2550,13770,Completed
+Quetta,Karachi,A330,1035,10143,Completed
+Karachi,Dubai,A320,906,4349,Completed
+Quetta,Sharjah,A321,3302,17831,Completed
+Dubai,Sharjah,A330,3962,0,Cancelled
+Muscat,Sharjah,A320,3169,15211,Completed
+Sharjah,Abu Dhabi,A321,3304,17842,Completed
+Doha,Multan,A330,1510,14798,Completed
+Quetta,Karachi,A320,3997,19186,Completed
+Lahore,Sharjah,A321,2331,12587,Completed

@@ -1,4 +1,65 @@
-Karachi,Islamabad,A321,1100,Scheduled
-Lahore,Sharjah,A320,2100,Scheduled
-Islamabad,Abu Dhabi,A321,2300,Scheduled
-Karachi,Dubai,A320,1200,Scheduled
+Islamabad,Karachi,A320,4091,Scheduled
+Abu Dhabi,Multan,A321,2917,Scheduled
+Doha,Multan,A330,4034,Scheduled
+Quetta,Multan,A320,2031,Scheduled
+Lahore,Quetta,A321,1129,Active
+Karachi,Dubai,A330,968,Delayed
+Lahore,Doha,A320,1799,Scheduled
+Dubai,Abu Dhabi,A321,894,Scheduled
+Islamabad,Dubai,A330,3183,Scheduled
+Multan,Islamabad,A320,2135,Scheduled
+Islamabad,Multan,A321,1051,Active
+Muscat,Peshawar,A330,2145,Delayed
+Islamabad,Multan,A320,1848,Scheduled
+Lahore,Dubai,A321,448,Scheduled
+Islamabad,Muscat,A330,2260,Scheduled
+Doha,Abu Dhabi,A320,3096,Scheduled
+Doha,Peshawar,A321,3478,Active
+Abu Dhabi,Peshawar,A330,2402,Delayed
+Doha,Lahore,A320,630,Scheduled
+Abu Dhabi,Multan,A321,1819,Scheduled
+Multan,Karachi,A330,2571,Scheduled
+Quetta,Lahore,A320,1973,Scheduled
+Quetta,Muscat,A321,4322,Active
+Karachi,Quetta,A330,3303,Delayed
+Islamabad,Muscat,A320,4382,Scheduled
+Multan,Islamabad,A321,2312,Scheduled
+Muscat,Quetta,A330,2365,Scheduled
+Lahore,Islamabad,A320,2128,Scheduled
+Abu Dhabi,Doha,A321,3260,Active
+Peshawar,Dubai,A330,2470,Delayed
+Karachi,Lahore,A320,1651,Scheduled
+Islamabad,Quetta,A321,3198,Scheduled
+Muscat,Abu Dhabi,A330,3329,Scheduled
+Dubai,Multan,A320,666,Scheduled
+Lahore,Muscat,A321,3821,Active
+Muscat,Abu Dhabi,A330,1803,Delayed
+Lahore,Quetta,A320,4370,Scheduled
+Lahore,Abu Dhabi,A321,2147,Scheduled
+Quetta,Multan,A330,2558,Scheduled
+Islamabad,Multan,A320,764,Scheduled
+Multan,Dubai,A321,887,Active
+Lahore,Quetta,A330,3690,Delayed
+Dubai,Quetta,A320,3509,Scheduled
+Doha,Abu Dhabi,A321,3456,Scheduled
+Peshawar,Muscat,A330,3515,Scheduled
+Peshawar,Dubai,A320,1987,Scheduled
+Doha,Islamabad,A321,876,Active
+Abu Dhabi,Multan,A330,1766,Delayed
+Lahore,Doha,A320,3266,Scheduled
+Sharjah,Multan,A321,3376,Scheduled
+Karachi,Peshawar,A330,1335,Scheduled
+Quetta,Islamabad,A320,746,Scheduled
+Peshawar,Islamabad,A321,1540,Active
+Dubai,Peshawar,A330,3777,Delayed
+Peshawar,Abu Dhabi,A320,3102,Scheduled
+Dubai,Peshawar,A321,559,Scheduled
+Multan,Quetta,A330,1759,Scheduled
+Peshawar,Doha,A320,1987,Scheduled
+Peshawar,Sharjah,A321,2000,Active
+Islamabad,Karachi,A330,2053,Delayed
+Abu Dhabi,Karachi,A320,1701,Scheduled
+Quetta,Sharjah,A321,1185,Scheduled
+Abu Dhabi,Multan,A330,3914,Scheduled
+Lahore,Dubai,A320,4343,Scheduled
+Muscat,Lahore,A321,1917,Active
