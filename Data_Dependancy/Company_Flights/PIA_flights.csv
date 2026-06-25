@@ -1,2 +1,5 @@
-Karachi,Lahore,A320,1200,Completed
-Karachi,Islamabad,B737,1100,Scheduled
+Karachi,Lahore,A320,1200,Scheduled
+Islamabad,Karachi,B777,1100,Scheduled
+Lahore,Dubai,A320,2200,Scheduled
+Peshawar,Jeddah,B777,3600,Scheduled
+Karachi,Islamabad,A320,1100,Scheduled
