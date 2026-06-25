@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <!-- Linear gradient for the glowing border -->
+    <linearGradient id="glowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d4ff" />
+      <stop offset="100%" stop-color="#00ff88" />
+    </linearGradient>
+    <!-- Gradient for the icon fill -->
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#00d4ff" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer circle border and dark background -->
+  <circle cx="16" cy="16" r="14.5" fill="#0a0a0f" stroke="url(#glowGrad)" stroke-width="1.5" />
+  
+  <!-- Stylized delta jet/Aero icon -->
+  <!-- A sleek triangle structure representing a stealth jet or A for Aero -->
+  <path d="M16 7 L23 21.5 L20 21.5 L16 13.5 L12 21.5 L9 21.5 Z" fill="url(#logoGrad)" />
+  
+  <!-- A glowing nexus dot in the center of the jet -->
+  <circle cx="16" cy="18" r="1.5" fill="#00ff88" />
+  
+  <!-- Two small satellite connection dots on the sides to show "Nexus" connection -->
+  <circle cx="11.5" cy="16" r="0.8" fill="#00d4ff" />
+  <circle cx="20.5" cy="16" r="0.8" fill="#00d4ff" />
+  
+  <!-- Connecting line -->
+  <line x1="12.3" y1="16" x2="19.7" y2="16" stroke="#00d4ff" stroke-width="0.3" stroke-dasharray="0.6,0.6" />
+</svg>
