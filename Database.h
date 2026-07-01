@@ -2,17 +2,16 @@
 #define DATABASE_H
 
 #include <string>
-using namespace std;
 
 class Database{
     protected:
-        // CSV file handling info
-        string fileName;          // Main CSV file name
-        int pointer;           // Current number of records in the database
-        int capacity;             // Maximum allocated size
+        std::string fileName;
+        int pointer;
+        int capacity;
 
     public:
-        Database(string fname);
+        Database(std::string fname);
+        virtual ~Database() {}
         virtual void loadData() = 0;
         virtual void saveData() = 0;
         virtual void addRecord() = 0;

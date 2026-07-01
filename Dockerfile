@@ -9,6 +9,9 @@ RUN g++ -std=c++17 \
     Database.cpp \
     RecordDB.cpp \
     User.cpp \
+    Company.cpp \
+    FlightDB.cpp \
+    PlaneDB.cpp \
     -o server \
     -pthread
 

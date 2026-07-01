@@ -10,6 +10,13 @@ PlaneDB::PlaneDB(string fname) : Database(fname){
     modelNo = new string[capacity];
     fuelCapacity = new float[capacity];
     status = new string[capacity];
+    loadData();
+}
+
+PlaneDB::~PlaneDB() {
+    delete[] modelNo;
+    delete[] fuelCapacity;
+    delete[] status;
 }
 
 void PlaneDB::setCap() {
@@ -90,9 +97,9 @@ void PlaneDB::addRecord() {
             default:
                 cout << "Invalid input for status. Try again!" << endl;
         }
-        cout << "Plane record added successfully." << endl;
-        pointer++; // Increment pointer for new record
     }   
+    cout << "Plane record added successfully." << endl;
+    pointer++; // Increment pointer for new record
 }
 
 void PlaneDB::saveData() {
@@ -136,8 +143,8 @@ void PlaneDB::updateRecord(int index) {
             default:
                 cout << "Invalid input for status. Try again!" << endl;
         }
-        cout << "Plane record updated successfully." << endl;
     }
+    cout << "Plane record updated successfully." << endl;
 }
 
 void PlaneDB::deleteRecord(int index) {

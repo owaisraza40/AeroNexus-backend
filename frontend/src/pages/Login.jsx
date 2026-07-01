@@ -15,9 +15,9 @@ function Login() {
     const endpoint = isSignup ? "/signup" : "/login";
     const body = `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
     try {
-      const res = await fetch(`https://aeronexus-backend-production.up.railway.app${endpoint}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" , "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") },
         body: body,
       });
       const data = JSON.parse(await res.text());

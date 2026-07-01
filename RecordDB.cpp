@@ -17,6 +17,15 @@ RecordDB::RecordDB(string fname) : Database(fname){
     loadData(); // Load existing data from the file
 }
 
+RecordDB::~RecordDB() {
+    delete[] airport;
+    delete[] destination;
+    delete[] modelno;
+    delete[] distance;
+    delete[] fuelConsumed;
+    delete[] status;
+}
+
 void RecordDB::setCap() {
     Database::setCap(); // Call base class method to set capacity
     capacity += 100; // Add extra space for new records unique to RecordDB

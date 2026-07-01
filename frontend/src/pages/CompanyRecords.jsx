@@ -105,7 +105,7 @@ export default function CompanyRecords() {
 
   useEffect(() => {
     if (!companyName) {
-      fetch("https://aeronexus-backend-production.up.railway.app/companies")
+      fetch(import.meta.env.VITE_API_URL + "/companies", { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") } })
         .then(r => r.json())
         .then(data => {
           const found = data.find(c => String(c.id) === String(id));
@@ -131,7 +131,7 @@ export default function CompanyRecords() {
   }, []);
 
   const fetchRecords = () => {
-    fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/flights`)
+    fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/flights`, { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") } })
       .then(r => r.json())
       .then(data => {
         setRecords(data);
@@ -144,9 +144,9 @@ export default function CompanyRecords() {
   const handleAdd = async () => {
     const body = `airport=${encodeURIComponent(form.airport)}&destination=${encodeURIComponent(form.destination)}&modelno=${encodeURIComponent(form.modelno)}&distance=${form.distance}&fuelConsumed=${form.fuelConsumed}&status=${encodeURIComponent(form.status)}`;
     
-    const res = await fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/flights`, { 
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/flights`, { 
       method: "POST", 
-      headers: { "Content-Type": "application/x-www-form-urlencoded" }, 
+      headers: { "Content-Type": "application/x-www-form-urlencoded" , "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") }, 
       body 
     });
     
@@ -177,9 +177,9 @@ export default function CompanyRecords() {
   const handleUpdate = async () => {
     const body = `airport=${encodeURIComponent(form.airport)}&destination=${encodeURIComponent(form.destination)}&modelno=${encodeURIComponent(form.modelno)}&distance=${form.distance}&fuelConsumed=${form.fuelConsumed}&status=${encodeURIComponent(form.status)}`;
     
-    const res = await fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/flights/${editIndex}`, { 
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/flights/${editIndex}`, { 
       method: "PUT", 
-      headers: { "Content-Type": "application/x-www-form-urlencoded" }, 
+      headers: { "Content-Type": "application/x-www-form-urlencoded" , "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") }, 
       body 
     });
     
@@ -196,7 +196,7 @@ export default function CompanyRecords() {
   const handleDelete = async (index) => {
     if (!window.confirm("Delete this flight record entirely?")) return;
     
-    await fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/flights/${index}`, { 
+    await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/flights/${index}`, { 
       method: "DELETE" 
     });
     fetchRecords();

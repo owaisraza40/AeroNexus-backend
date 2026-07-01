@@ -3,16 +3,16 @@
 
 #include "Database.h"
 #include <string>
-using namespace std;
 
 class PlaneDB : public Database{
     private:
-        string* modelNo;       // Plane model number/name
-        float* fuelCapacity;   // Plane fuel capacity
-        string* status;          // true = available, false = unavailable/busy
+        std::string* modelNo;
+        float* fuelCapacity;
+        std::string* status;
 
     public:
-        PlaneDB(string fname);
+        PlaneDB(std::string fname);
+        ~PlaneDB() override;
         void loadData() override;
         void saveData() override;
         void setCap() override;

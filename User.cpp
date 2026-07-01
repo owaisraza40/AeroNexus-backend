@@ -4,6 +4,9 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <iostream>
+using namespace std;
+
 
 void User::initializeUser() {
     string x, y;
@@ -18,10 +21,10 @@ void User::initializeUser() {
             if (x != y) {
             cout << "Passwords do not match! Try again." << endl;
         }
+    }
     password = x;
     userID = no_users++;
     setTypeRegular(); // Set user type to regular by default
-    }
 }
 void User::setTypeAdmin() {
     type = "admin";

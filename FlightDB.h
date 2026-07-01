@@ -3,20 +3,17 @@
 
 #include "Database.h"
 #include <string>
-using namespace std;
 
 class FlightDB : public Database{
     protected:
-        string* airport;        // Starting airport
-        string* destination;    // Destination airport
-
-        string* modelno;     // Plane model number used in this flight
-
-        float* distance;        // Flight distance
-        
-        string* status;         // Scheduled only
+        std::string* airport;
+        std::string* destination;
+        std::string* modelno;
+        float* distance;
+        std::string* status;
     public:
-        FlightDB(string fname, int cap);
+        FlightDB(std::string fname, int cap);
+        ~FlightDB() override;
         void loadData() override;
         void saveData() override;
         void addRecord() override;

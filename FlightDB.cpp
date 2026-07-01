@@ -24,6 +24,15 @@ FlightDB::FlightDB(string fname, int cap) : Database(fname){
         pointer = 0;
         return;
     }
+    loadData();
+}
+
+FlightDB::~FlightDB() {
+    delete[] airport;
+    delete[] destination;
+    delete[] modelno;
+    delete[] distance;
+    delete[] status;
 }
 
 void FlightDB::loadData() {

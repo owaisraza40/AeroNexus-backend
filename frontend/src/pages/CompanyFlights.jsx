@@ -216,7 +216,7 @@ export default function CompanyFlights() {
   // Resolve company name if not passed via router state
   useEffect(() => {
     if (!companyName) {
-      fetch("https://aeronexus-backend-production.up.railway.app/companies")
+      fetch(import.meta.env.VITE_API_URL + "/companies", { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") } })
         .then(r => r.json())
         .then(data => {
           const found = data.find(c => String(c.id) === String(id));
@@ -232,14 +232,14 @@ export default function CompanyFlights() {
   }, []);
 
   const fetchFlights = () =>
-    fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/flights`)
+    fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/flights`, { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") } })
       .then(r => r.json())
       .then(setFlights)
       .catch(() => setFlights([]));
 
   // Fetch all planes for this company, keep only Active ones for the dropdown
   const fetchPlanes = () =>
-    fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/planes`)
+    fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/planes`, { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") } })
       .then(r => r.json())
       .then(data => setPlanes(data.filter(p => p.status === "Active")))
       .catch(() => setPlanes([]));
@@ -256,8 +256,8 @@ export default function CompanyFlights() {
       `&status=Scheduled`;
 
     const res = await fetch(
-      `https://aeronexus-backend-production.up.railway.app/companies/${id}/flights`,
-      { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body }
+      `${import.meta.env.VITE_API_URL}/companies/${id}/flights`,
+      { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" , "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") }, body }
     );
     const data = await res.json();
     if (data.success) {

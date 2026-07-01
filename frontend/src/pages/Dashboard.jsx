@@ -207,17 +207,24 @@ export default function Dashboard() {
 
   const fetchCompanies = () => {
     setLoading(true);
-    fetch("https://aeronexus-backend-production.up.railway.app/companies")
+    fetch(import.meta.env.VITE_API_URL + "/companies", { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") } })
       .then(r => r.json())
-      .then(d => { setCompanies(d); setLoading(false); });
+      .then((data) => {
+        setCompanies(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setError("Failed to connect to server");
+      });
   };
 
   const handleAdd = async () => {
     if (!form.name) return;
     const body = `name=${encodeURIComponent(form.name)}&planes=${form.planes}&terminals=${form.terminals}`;
-    const res = await fetch("https://aeronexus-backend-production.up.railway.app/companies", {
+    const res = await fetch(import.meta.env.VITE_API_URL + "/companies", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      headers: { "Content-Type": "application/x-www-form-urlencoded" , "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") },
       body,
     });
     const data = await res.json();
@@ -232,15 +239,15 @@ export default function Dashboard() {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this company?")) return;
-    await fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}`, { method: "DELETE" });
+    await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}`, { method: "DELETE", headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") } });
     fetchCompanies();
   };
 
   const handleUpdate = async () => {
     const body = `name=${encodeURIComponent(editForm.name)}&planes=${editForm.planes}&terminals=${editForm.terminals}`;
-    const res = await fetch(`https://aeronexus-backend-production.up.railway.app/companies/${editCompany.id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/companies/${editCompany.id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      headers: { "Content-Type": "application/x-www-form-urlencoded" , "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") },
       body,
     });
     const data = await res.json();

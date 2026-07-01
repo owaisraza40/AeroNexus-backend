@@ -43,7 +43,8 @@ void Database::removeEmptyLines() {
         cout << "Error: Could not open file " << fileName << endl;
         return;
     }
-    ofstream tempFile("temp.csv");
+    string tempName = fileName + ".tmp";
+    ofstream tempFile(tempName);
     while (getline(file, line)) {
         if (line != "") {
             tempFile << line << endl;
@@ -52,6 +53,6 @@ void Database::removeEmptyLines() {
     file.close();
     tempFile.close();
     remove(fileName.c_str());
-    rename("temp.csv", fileName.c_str());
+    rename(tempName.c_str(), fileName.c_str());
     setCap(); // Reset capacity after removing empty lines
 }

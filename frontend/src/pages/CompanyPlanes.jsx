@@ -102,7 +102,7 @@ export default function CompanyPlanes() {
 
   useEffect(() => {
     if (!companyName) {
-      fetch("https://aeronexus-backend-production.up.railway.app/companies")
+      fetch(import.meta.env.VITE_API_URL + "/companies", { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") } })
         .then(r => r.json())
         .then(data => {
           const found = data.find(c => String(c.id) === String(id));
@@ -123,12 +123,12 @@ export default function CompanyPlanes() {
 
   useEffect(() => { fetchPlanes(); setTimeout(() => setVisible(true), 100); }, []);
 
-  const fetchPlanes = () => fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/planes`).then(r => r.json()).then(setPlanes);
+  const fetchPlanes = () => fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/planes`, { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") } }).then(r => r.json()).then(setPlanes);
   const resetForm = () => setForm({ modelNo: "", fuelCapacity: "", status: "Active" });
 
   const handleAdd = async () => {
     const body = `modelNo=${encodeURIComponent(form.modelNo)}&fuelCapacity=${form.fuelCapacity}&status=${encodeURIComponent(form.status)}`;
-    const res = await fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/planes`, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body });
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/planes`, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" , "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") }, body });
     const data = await res.json();
     if (data.success) { setMessage("Plane added!"); setShowAdd(false); resetForm(); fetchPlanes(); setTimeout(() => setMessage(""), 2000); }
   };
@@ -142,14 +142,14 @@ export default function CompanyPlanes() {
 
   const handleUpdate = async () => {
     const body = `modelNo=${encodeURIComponent(form.modelNo)}&fuelCapacity=${form.fuelCapacity}&status=${encodeURIComponent(form.status)}`;
-    const res = await fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/planes/${editIndex}`, { method: "PUT", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body });
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/planes/${editIndex}`, { method: "PUT", headers: { "Content-Type": "application/x-www-form-urlencoded" , "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") }, body });
     const data = await res.json();
     if (data.success) { setMessage("Plane updated!"); setEditIndex(null); resetForm(); fetchPlanes(); setTimeout(() => setMessage(""), 2000); }
   };
 
   const handleDelete = async (i) => {
     if (!window.confirm("Delete this plane?")) return;
-    await fetch(`https://aeronexus-backend-production.up.railway.app/companies/${id}/planes/${i}`, { method: "DELETE" });
+    await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/planes/${i}`, { method: "DELETE", headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") } });
     fetchPlanes();
   };
 

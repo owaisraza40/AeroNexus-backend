@@ -2,27 +2,26 @@
 #define USER_H
 
 #include <string>
-using namespace std;
 
 class User {
     protected:
-        inline static int no_users = 0; // Static variable to keep track of the number of users created
-        int userID = 0; // Static variable to keep track of user IDs/Make Unique IDs
-        string username;
-        string password;
-        string type; // admin or regular
+        inline static int no_users = 0;
+        int userID = 0;
+        std::string username;
+        std::string password;
+        std::string type;
     public:
         void initializeUser();
         void setTypeAdmin();
         void setTypeRegular();
-        void setUsername(string name) { username = name; }
-        void setPassword(string pass) { password = pass; }
-        string getUsername();
-        string getPassword();
-        string getType();
-        string toCSV();
-        bool Login(string line, string inputUsername, string inputPassword);
-        User toUser(string y);
+        void setUsername(std::string name) { username = name; }
+        void setPassword(std::string pass) { password = pass; }
+        std::string getUsername();
+        std::string getPassword();
+        std::string getType();
+        std::string toCSV();
+        bool Login(std::string line, std::string inputUsername, std::string inputPassword);
+        User toUser(std::string y);
 };
 
 #endif

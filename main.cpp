@@ -54,7 +54,7 @@ int main() {
             profile.initializeUser(); // Create a new user profile
             cout << "User created successfully! Automatic Login Successful." << endl;
             login = true;
-            ofstream file(fileName);
+            ofstream file(fileName, ios::app);
             if (!file.is_open()) {
                 cerr << "Error Connecting to the DataBase: Login info was not saved to DataBase!" << fileName << endl;
             } else {

@@ -6,25 +6,21 @@
 #include "FlightDB.h"
 #include "RecordDB.h"
 #include <string>
-using namespace std;
 
 class Company : public Database {
     private:
         int* companyId;
-        string* companyName;
+        std::string* companyName;
 
-        // Dynamic list of PlaneDB objects for this company
-        int* planeCount = 0;
+        int* planeCount = nullptr;
         int* no_of_terminals;
         PlaneDB** planeList;
         FlightDB** flightList;
-        
-
-        // Record database for this company
         RecordDB** recordlist;
 
     public:
-        Company(string fname);
+        Company(std::string fname);
+        ~Company() override;
         void setCap() override;
         void loadData() override;
         void saveData() override;

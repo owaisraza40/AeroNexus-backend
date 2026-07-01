@@ -45,6 +45,22 @@ Company::Company(string fname) : Database(fname) {
     }
 }
 
+Company::~Company() {
+    delete[] companyId;
+    delete[] companyName;
+    delete[] planeCount;
+    delete[] no_of_terminals;
+    
+    for(int i = 0; i < capacity; i++) {
+        delete recordlist[i];
+        delete flightList[i];
+        delete planeList[i];
+    }
+    delete[] recordlist;
+    delete[] flightList;
+    delete[] planeList;
+}
+
 void Company::setCap() {
     Database::setCap();
     capacity += 10; // Add extra space for company-specific records
@@ -130,6 +146,8 @@ void Company::addRecord() {
     cin.ignore(); // Clear the input buffer
     // Initialize a new record database for this company
     recordlist[pointer] = new RecordDB("Data_Dependancy/Company_Records/" + companyName[pointer] + "_records.csv");
+    flightList[pointer] = new FlightDB("Data_Dependancy/Company_Flights/" + companyName[pointer] + "_flights.csv", no_of_terminals[pointer]);
+    planeList[pointer] = new PlaneDB("Data_Dependancy/Company_Planes/" + companyName[pointer] + "_planes.csv");
     
     cout << "Company record added successfully." << endl;
     pointer++; // Increment pointer for new record
@@ -144,16 +162,19 @@ void Company::displayRecords() {
 }
 void Company::displayPastRecords(int index) {
     index--;
+    if (index < 0 || index >= pointer) { cout << "Invalid company index." << endl; return; }
     cout << "\n--- Past Flight Records for Company: " << companyName[index] << " ---" << endl;
     recordlist[index]->displayRecords(); // Display records for the specified company's record database
 }
 void Company::displayFlightSchedule(int index) {
     index--;
+    if (index < 0 || index >= pointer) { cout << "Invalid company index." << endl; return; }
     cout << "\n--- Flight Schedule for Company: " << companyName[index] << " ---" << endl;
     flightList[index]->displayRecords(); // Display flight records for the specified company's flight database
 }
 void Company::displayPlaneRecords(int index) {
     index--;
+    if (index < 0 || index >= pointer) { cout << "Invalid company index." << endl; return; }
     cout << "\n--- Plane Records for Company: " << companyName[index] << " ---" << endl;
     planeList[index]->displayRecords(); // Display plane records for the specified company
 }
