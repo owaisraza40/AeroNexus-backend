@@ -22,7 +22,7 @@ function Login() {
       });
       const data = JSON.parse(await res.text());
       if (data.success) {
-        sessionStorage.setItem("user", JSON.stringify({ username: data.username, type: data.type }));
+        sessionStorage.setItem("user", JSON.stringify({ username: data.username, type: data.type, token: data.token }));
         window.location.href = "/dashboard";
       } else {
         setError(`ERR: ${data.message}`);
