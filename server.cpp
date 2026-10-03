@@ -32,11 +32,14 @@ string generateToken() {
 
 void setCORS(const httplib::Request& req, httplib::Response& res) {
     string origin = req.get_header_value("Origin");
-    if (origin.empty()) origin = "*";
-    res.set_header("Access-Control-Allow-Origin", origin);
+    if (!origin.empty()) {
+        res.set_header("Access-Control-Allow-Origin", origin);
+        res.set_header("Access-Control-Allow-Credentials", "true");
+    } else {
+        res.set_header("Access-Control-Allow-Origin", "*");
+    }
     res.set_header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
     res.set_header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.set_header("Access-Control-Allow-Credentials", "true");
 }
 
 string urlDecode(string str) {
@@ -94,6 +97,7 @@ User* getAuthUser(const httplib::Request& req) {
 }
 
 bool authCheck(const httplib::Request& req, httplib::Response& res, bool requireAdmin = false) {
+    setCORS(req, res);
     User* u = getAuthUser(req);
     if (!u) {
         json j = {{"success", false}, {"message", "Unauthorized"}};
@@ -141,6 +145,22 @@ int main() {
         res.set_content("", "text/plain");
     });
 
+    svr.Get("/", [](const httplib::Request& req, httplib::Response& res) {
+        setCORS(req, res);
+        json j = {
+            {"status", "online"},
+            {"service", "AeroNexus Backend API"},
+            {"version", "1.0.0"}
+        };
+        res.set_content(j.dump(), "application/json");
+    });
+
+    svr.Get("/health", [](const httplib::Request& req, httplib::Response& res) {
+        setCORS(req, res);
+        json j = {{"status", "healthy"}};
+        res.set_content(j.dump(), "application/json");
+    });
+
     svr.Post("/login", [](const httplib::Request& req, httplib::Response& res) {
         setCORS(req, res);
         lock_guard<mutex> lock(db_mutex);
@@ -156,7 +176,13 @@ int main() {
         bool found = false;
         while (getline(file, line)) {
             if (line.empty()) continue;
-            if (profile.Login(line, username, hashed_pass)) {
+            stringstream ss(line);
+            string id, uName, storedPass, uType;
+            getline(ss, id, ',');
+            getline(ss, uName, ',');
+            getline(ss, storedPass, ',');
+            getline(ss, uType, ',');
+            if (uName == username && (storedPass == hashed_pass || storedPass == password)) {
                 profile = profile.toUser(line);
                 found = true;
                 break;
@@ -210,7 +236,18 @@ int main() {
         outFile << newId << "," << username << "," << hashed_pass << ",regular\n";
         outFile.close();
         
-        json j = {{"success", true}, {"username", username}, {"type", "regular"}};
+        string token = generateToken();
+        string userCsvLine = to_string(newId) + "," + username + "," + hashed_pass + ",regular";
+        User newUser;
+        newUser = newUser.toUser(userCsvLine);
+        sessions[token] = newUser;
+        
+        json j = {
+            {"success", true},
+            {"token", token},
+            {"username", username},
+            {"type", "regular"}
+        };
         res.set_content(j.dump(), "application/json");
     });
 
@@ -428,19 +465,30 @@ int main() {
         string compName = getCompanyName(stoi(req.matches[1]));
         if (compName.empty()) return jsonError(res, "Company not found", 404);
         
-        RecordDB db("Data_Dependancy/Company_Records/" + sanitizeFilename(compName) + "_records.csv");
+        ifstream file("Data_Dependancy/Company_Records/" + sanitizeFilename(compName) + "_records.csv");
         json j = json::array();
-        for (int i = 0; i < db.getPointer(); i++) {
-            string a = db.getAirport(i);
-            if (a.empty()) break; 
-            j.push_back({
-                {"airport", db.getAirport(i)},
-                {"destination", db.getDestination(i)},
-                {"modelno", db.getModelNo(i)},
-                {"distance", db.getDistance(i)},
-                {"fuelConsumed", db.getFuelConsumed(i)},
-                {"status", db.getStatus(i)}
-            });
+        string line;
+        while (getline(file, line)) {
+            if (line.empty()) continue;
+            stringstream ss(line);
+            string airport, destination, modelno, distance, fuelConsumed, status;
+            getline(ss, airport, ',');
+            getline(ss, destination, ',');
+            getline(ss, modelno, ',');
+            getline(ss, distance, ',');
+            getline(ss, fuelConsumed, ',');
+            getline(ss, status, ',');
+            if (airport.empty()) continue;
+            try {
+                j.push_back({
+                    {"airport", airport},
+                    {"destination", destination},
+                    {"modelno", modelno},
+                    {"distance", distance.empty() ? 0.0f : stof(distance)},
+                    {"fuelConsumed", fuelConsumed.empty() ? 0.0f : stof(fuelConsumed)},
+                    {"status", status}
+                });
+            } catch(...) {}
         }
         res.set_content(j.dump(), "application/json");
     });

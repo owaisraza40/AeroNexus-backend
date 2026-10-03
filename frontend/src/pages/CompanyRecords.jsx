@@ -131,7 +131,7 @@ export default function CompanyRecords() {
   }, []);
 
   const fetchRecords = () => {
-    fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/flights`, { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") } })
+    fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/records`, { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") } })
       .then(r => r.json())
       .then(data => {
         setRecords(data);
@@ -144,7 +144,7 @@ export default function CompanyRecords() {
   const handleAdd = async () => {
     const body = `airport=${encodeURIComponent(form.airport)}&destination=${encodeURIComponent(form.destination)}&modelno=${encodeURIComponent(form.modelno)}&distance=${form.distance}&fuelConsumed=${form.fuelConsumed}&status=${encodeURIComponent(form.status)}`;
     
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/flights`, { 
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/records`, { 
       method: "POST", 
       headers: { "Content-Type": "application/x-www-form-urlencoded" , "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") }, 
       body 
@@ -177,7 +177,7 @@ export default function CompanyRecords() {
   const handleUpdate = async () => {
     const body = `airport=${encodeURIComponent(form.airport)}&destination=${encodeURIComponent(form.destination)}&modelno=${encodeURIComponent(form.modelno)}&distance=${form.distance}&fuelConsumed=${form.fuelConsumed}&status=${encodeURIComponent(form.status)}`;
     
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/flights/${editIndex}`, { 
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/records/${editIndex}`, { 
       method: "PUT", 
       headers: { "Content-Type": "application/x-www-form-urlencoded" , "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") }, 
       body 
@@ -196,8 +196,9 @@ export default function CompanyRecords() {
   const handleDelete = async (index) => {
     if (!window.confirm("Delete this flight record entirely?")) return;
     
-    await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/flights/${index}`, { 
-      method: "DELETE" 
+    await fetch(`${import.meta.env.VITE_API_URL}/companies/${id}/records/${index}`, { 
+      method: "DELETE",
+      headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem("user"))?.token || "") }
     });
     fetchRecords();
   };

@@ -196,6 +196,7 @@ export default function Dashboard() {
   const [editCompany, setEditCompany] = useState(null);
   const [editForm, setEditForm] = useState({ name: "", planes: "", terminals: "" });
   const [navVisible, setNavVisible] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const user = JSON.parse(sessionStorage.getItem("user"));
   const isAdmin = user?.type === "admin";
@@ -214,6 +215,7 @@ export default function Dashboard() {
         setLoading(false);
       })
       .catch((err) => {
+        console.error("Fetch error:", err);
         setLoading(false);
         setError("Failed to connect to server");
       });
@@ -444,7 +446,16 @@ export default function Dashboard() {
                   {companies.map((c, i) => (
                     <TableRow key={c.id} c={c} i={i} isAdmin={isAdmin} navigate={navigate} onDelete={handleDelete} onEdit={(c) => { setEditCompany(c); setEditForm({ name: c.name, planes: c.planes, terminals: c.terminals }); }} />
                   ))}
-                  {!loading && companies.length === 0 && (
+                  {error && (
+                    <tr>
+                      <td colSpan="6" className="px-6 py-20 text-center border-b border-[#2a2a3a]">
+                        <p className="text-[#ff3366] text-lg font-bold mb-2">Connection Error</p>
+                        <p className="text-[#ff3366]/80 text-sm">{error}</p>
+                        <p className="text-[#6b7280] text-xs mt-4">Tip: Please disable any "CORS" browser extensions (like CORS Unblock), as they can block local API requests.</p>
+                      </td>
+                    </tr>
+                  )}
+                  {!loading && !error && companies.length === 0 && (
                     <tr>
                       <td colSpan="6" className="px-6 py-20 text-center border-b border-[#2a2a3a]">
                         <p className="text-[#6b7280] text-sm">No airlines registered yet. Add one to get started.</p>
