@@ -68,12 +68,25 @@ docker build -t aeronexus-backend .
 docker run -p 8080:8080 aeronexus-backend
 ```
 
-### 3. Run
+### 3. Run the Backend
 
 ```bash
 ./server
 ```
-The server will start listening on port `8080` (or the port defined by your `PORT` environment variable).
+The server will start listening on port `8080`. Leave this terminal open.
+
+### 4. Run the Frontend
+
+Open a **new terminal** in the `frontend` directory:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The React frontend will be accessible at `http://localhost:5173`. 
+*(Note: The frontend is configured with a Vite proxy to automatically route API requests to your local backend, completely bypassing CORS issues!)*
 
 ---
 
